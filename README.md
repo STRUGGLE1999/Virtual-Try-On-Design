@@ -36,29 +36,45 @@
 
 ### 📸 小程序原型界面预览 (Prototype Mockup Previews)
 
+我们在下方为您展示了 5 个核心交互页面的真实移动端小程序原型截图：
+
 <table width="100%">
   <tr>
-    <td width="50%" align="center">
-      <b>🏠 1. 智能穿衣推荐（小程序首页）</b><br/><br/>
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=600" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
-      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示当地天气与今日空气质量，AI 根据气温自动进行材质推荐。配有简洁的场合及风格过滤操作，展现时尚流利的大图精美推荐。</font></p>
+    <td width="33%" align="center">
+      <b>🏠 1. 智能穿搭推荐 (首页)</b><br/><br/>
+      <img src="input_file_0.png" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示天气极简卡片、精美推荐封面，以及多功能快捷入口（单品识别、虚拟试穿、买前试穿等）。</font></p>
     </td>
-    <td width="50%" align="center">
-      <b>👚 2. 可视化衣橱（我的数字衣柜）</b><br/><br/>
-      <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=80&w=600" alt="可视化数字衣柜" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
-      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 采用 2×2 精美格子布局，带分类过滤切片（上装、下装、鞋履、配饰），支持输入框模糊实时搜索，更有智能上架管理，打理每一件精美服饰。</font></p>
+    <td width="33%" align="center">
+      <b>👚 2. 精致数字衣橱 (衣橱)</b><br/><br/>
+      <img src="input_file_1.png" alt="高级数字衣橱" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 可视化卡片滑动式「AI 识别队列」，对上新单品材质、品类、颜色和风格标签进行无感识别入库。</font></p>
+    </td>
+    <td width="33%" align="center">
+      <b>✨ 3. AI 智能搭配 (搭配)</b><br/><br/>
+      <img src="input_file_2.png" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 匹配度、风格风险与复穿度数字化量化，生成科学配比多件套，可对内搭/鞋履/下装点击智能一键重组。</font></p>
     </td>
   </tr>
   <tr>
-    <td width="50%" align="center">
-      <b>✨ 3. AI 智能搭配（单品组合看板）</b><br/><br/>
-      <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&q=80&w=600" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
-      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 内置「生成新搭配」、「今日幸运色」双模式引擎。AI 自动拼出高契合度单品配方。支持一键重组、喜爱款快捷收藏保存。</font></p>
+    <td width="33%" align="center">
+      <b>📅 4. 穿法出行日历 (日历)</b><br/><br/>
+      <img src="input_file_3.png" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 极简月历式行程提醒，每天日程深度联结穿搭打卡记录，可一键批量设置气味、满意度星级与明日出行提醒。</font></p>
     </td>
-    <td width="50%" align="center">
-      <b>📅 4. 穿穿搭日历（出行穿搭行程指南）</b><br/><br/>
-      <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=600" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
-      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 月历日程与穿搭管理完美绑定。轻松添加派对、会议或休闲运动行程，一键附上最合心水的当日搭配，出行大步流星、自信随心。</font></p>
+    <td width="33%" align="center">
+      <b>👤 5. 个人档案中心 (我的)</b><br/><br/>
+      <img src="input_file_4.png" alt="个人穿搭健康档案" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 体维与形象特征模型（身高、体重、沙漏体型），衣橱诊断等级大底盘（利用率、闲置比率与缺口推荐）。</font></p>
+    </td>
+    <td width="33%" align="center" valign="top">
+      <b>🔗 联结互动设计理念</b><br/><br/>
+      <div style="text-align: left; background-color: #f9f9f9; padding: 12px; border-radius: 14px; border: 1px solid #eaeaea; height: auto;">
+        <font size="2" color="gray">
+          ● <b>微信双胶囊按键</b> 实时弹出底部快捷工具：提供「发送给朋友」、「朋友圈打卡」、「加入收藏」、「关于我们」等菜单。<br/>
+          ● <b>微动画流畅体验</b>：所有的视图切换与浮窗在移动设备中拥有平滑缓动，提供舒适的微信生态沉浸感。
+        </font>
+      </div>
     </td>
   </tr>
 </table>
