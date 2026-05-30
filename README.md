@@ -7,7 +7,7 @@
 This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/c18210b7-bbe7-4e50-97db-09d90f58fb3a
-
+App URL:https://vogue-ai-348269911971.us-west2.run.app/
 ## Run Locally
 
 **Prerequisites:**  Node.js
