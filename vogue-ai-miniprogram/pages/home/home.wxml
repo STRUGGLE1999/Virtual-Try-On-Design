@@ -1,0 +1,229 @@
+<view class="container">
+  <view class="section-top">
+    <view class="flex justify-between items-center">
+      <view>
+        <text class="text-xs text-stone-400 uppercase tracking-widest block mb-1">今日穿搭选择</text>
+        <text class="text-3xl text-serif font-semibold text-stone-900">AI 智能推荐</text>
+      </view>
+      <view class="bg-stone-100 rounded-full px-3 py-1.5 flex items-center gap-1.5">
+        <text class="text-stone-500" style="font-size: 16px;">☁</text>
+        <text class="text-xs font-bold text-stone-600 uppercase tracking-wider">简约职场</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="hero-section">
+    <view class="flex justify-between items-center mb-4">
+      <view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400">今日推荐</text>
+        <text class="text-2xl text-serif font-bold text-stone-900 mt-1">智能搭配</text>
+      </view>
+      <button class="flex items-center gap-2 px-4 py-2 bg-white border border-stone-200 rounded-full" bindtap="onRefreshOutfit">
+        <text style="font-size: 14px;">🔄</text>
+        <text class="text-xs font-bold text-stone-700">换一套</text>
+      </button>
+    </view>
+
+    <view class="hero-card">
+      <image src="{{activeOutfit.items[0].imageUrl}}" mode="aspectFill" class="hero-image"></image>
+      <view class="hero-overlay">
+        <view class="flex justify-between items-center">
+          <view class="flex gap-2">
+            <button class="px-5 py-2.5 rounded-full flex items-center gap-2 {{isOutfitFavorited ? 'bg-rose-500 text-white' : 'bg-white text-stone-900'}} text-xs font-bold" bindtap="onToggleFavorite">
+              <text style="font-size: 14px;">{{isOutfitFavorited ? '❤️' : '🤍'}}</text>
+              <text>{{isOutfitFavorited ? '已收藏' : '收藏'}}</text>
+            </button>
+            <button class="px-5 py-2.5 rounded-full flex items-center gap-2 bg-blue-600 text-white text-xs font-bold" bindtap="onLogToday">
+              <text style="font-size: 14px;">📅</text>
+              <text>{{hasLoggedToday ? '成功录入!' : '记录今日'}}</text>
+            </button>
+          </view>
+          <view class="hidden text-right">
+            <text class="text-xs text-stone-200/80 uppercase font-bold tracking-widest">上海气温</text>
+            <text class="text-sm font-bold mt-0.5 block">22°C 多云天气匹配</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="quick-entry-grid">
+    <view class="quick-entry-item" bindtap="onUploadItem">
+      <view class="quick-entry-icon">
+        <text style="font-size: 20px;">📤</text>
+      </view>
+      <text class="text-xs font-bold uppercase text-stone-700">上传单品</text>
+      <text class="text-xs text-stone-400 mt-1">添加新衣服到队列</text>
+    </view>
+
+    <view class="quick-entry-item" bindtap="goToWardrobe">
+      <view class="quick-entry-icon">
+        <text style="font-size: 20px;">🔍</text>
+      </view>
+      <text class="text-xs font-bold uppercase text-stone-700">单品识别</text>
+      <text class="text-xs text-stone-400 mt-1">AI 识别材质与推荐</text>
+    </view>
+
+    <view class="quick-entry-item quick-entry-blue" bindtap="onTryOn">
+      <view class="quick-entry-icon quick-entry-icon-blue">
+        <text style="font-size: 20px;">✨</text>
+      </view>
+      <text class="text-xs font-bold uppercase text-blue-600">虚拟试穿</text>
+      <text class="text-xs text-blue-600/70 mt-1">3D 模特智能试穿</text>
+    </view>
+
+    <view class="quick-entry-item" bindtap="onShopHelper">
+      <view class="quick-entry-icon">
+        <text style="font-size: 20px;">🛍️</text>
+      </view>
+      <text class="text-xs font-bold uppercase text-stone-700">买前试穿</text>
+      <text class="text-xs text-stone-400 mt-1">购物辅助降低闲置</text>
+    </view>
+  </view>
+
+  <view class="section-space">
+    <text class="text-xl text-serif font-semibold text-stone-900 mb-4">衣橱状态</text>
+    <view class="grid grid-cols-2 gap-4">
+      <view class="card">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400">衣橱饱和度</text>
+        <view class="flex items-center gap-6 mt-2">
+          <view class="flex-1">
+            <text class="text-3xl text-serif font-bold text-stone-900">84%</text>
+            <view class="w-full h-1.5 bg-stone-100 rounded-full mt-2 overflow-hidden">
+              <view class="h-full bg-stone-900 rounded-full" style="width: 84%"></view>
+            </view>
+          </view>
+          <view class="text-right border-l border-stone-100 pl-6">
+            <text class="text-xs uppercase font-bold tracking-widest text-stone-400">总件数</text>
+            <text class="text-lg font-bold text-stone-900 mt-1 block">142 件</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="card">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400">未穿率</text>
+        <view class="flex items-end justify-between mt-2">
+          <view class="flex items-center gap-1.5">
+            <text class="text-3xl text-serif font-bold text-blue-600">12%</text>
+            <text class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full uppercase tracking-wider">▼ 较上月</text>
+          </view>
+          <view class="flex gap-1 h-9 items-end">
+            <view class="w-2 bg-stone-200 rounded-t-sm" style="height: 70%"></view>
+            <view class="w-2 bg-stone-200 rounded-t-sm" style="height: 40%"></view>
+            <view class="w-2 bg-stone-200 rounded-t-sm" style="height: 60%"></view>
+            <view class="w-2 bg-blue-600 rounded-t-sm" style="height: 15%"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-space">
+    <view class="flex justify-between items-center mb-4">
+      <text class="text-xl text-serif font-semibold text-stone-900">近期收藏</text>
+      <text class="text-xs font-bold text-stone-500 uppercase tracking-widest" bindtap="goToMine">查看全部</text>
+    </view>
+
+    <view class="favorites-grid">
+      <view class="favorite-item" wx:for="{{recentFavorites}}" wx:key="id" wx:for-item="fav" bindtap="showItemDetail" data-item="{{fav}}">
+        <view class="favorite-image-wrap">
+          <image src="{{fav.imageUrl}}" mode="aspectFill" class="favorite-image"></image>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400 px-1 truncate">{{fav.brand}}</text>
+        <text class="text-xs font-semibold text-stone-800 px-1 truncate block">{{fav.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showUploadModal}}" class="modal-overlay">
+    <view class="modal-content">
+      <text class="text-lg text-serif font-bold text-stone-900 mb-4">上传衣服入库</text>
+      
+      <view class="upload-area {{dragActive ? 'upload-area-active' : ''}}" bindtap="chooseImage">
+        <text style="font-size: 40px;" class="mb-3">📷</text>
+        <text class="text-sm text-stone-800 font-medium">点击选择图片</text>
+        <text wx:if="{{!uploadedFile}}" class="text-xs text-stone-400 mt-2">支持拖放或点击上传衣服图片</text>
+      </view>
+
+      <view wx:if="{{uploadedFile}}" class="mt-4 p-2 bg-stone-50 border border-stone-100 rounded-2xl">
+        <text class="text-xs text-green-600 font-bold block mb-2">✓ 文件已成功读取</text>
+        <image src="{{uploadedFile}}" mode="aspectFill" style="width: 80px; height: 96px; margin: 0 auto; border-radius: 8px;"></image>
+      </view>
+
+      <view class="flex gap-3 mt-6">
+        <button class="flex-1 py-3 border border-stone-200 text-xs font-bold text-stone-700 rounded-full" bindtap="closeUploadModal">取消</button>
+        <button class="flex-1 py-3 bg-black text-xs font-bold text-white rounded-full" bindtap="confirmUpload">送入 AI 识别队列</button>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showTryOnModal}}" class="modal-overlay">
+    <view class="modal-content modal-sm">
+      <text class="text-xl text-serif font-bold text-stone-900 mb-2">AI 虚拟试穿</text>
+      <text class="text-xs text-stone-500 mb-6 text-center">融合体型肖像与虚拟裁剪折射</text>
+
+      <view wx:if="{{tryOnProgress < 100}}" class="text-center py-8">
+        <view class="loading-spinner mx-auto mb-4"></view>
+        <text class="text-sm font-bold text-stone-800">{{tryOnProgress}}%</text>
+        <text class="text-xs text-stone-500 italic font-medium px-4 block mt-1">{{tryOnPhase}}</text>
+        <view class="w-full bg-stone-100 h-1.5 rounded-full overflow-hidden max-w-[200px] mx-auto mt-4">
+          <view class="h-full bg-gradient-to-r from-pink-500 to-indigo-500 rounded-full transition-all" style="width: {{tryOnProgress}}%"></view>
+        </view>
+      </view>
+
+      <view wx:else class="text-center">
+        <view class="w-56 h-72 rounded-2xl overflow-hidden border border-stone-200/50 mx-auto shadow-md">
+          <image src="{{activeOutfit.items[0].imageUrl}}" mode="aspectFill" style="width: 100%; height: 100%;"></image>
+        </view>
+        <view class="p-3 bg-green-50 rounded-2xl border border-green-100/50 text-left mt-4">
+          <view class="flex items-center gap-1.5 text-green-700 font-bold text-xs mb-1">
+            <text>🛡️</text>
+            <text>试穿诊断意见</text>
+          </view>
+          <text class="text-xs text-green-700 leading-relaxed">米白毛呢风衣与木炭西裤轮廓完美契合。您的沙漏型体态在略宽大立领大衣修饰下比例更为鲜明。</text>
+        </view>
+        <view class="flex gap-2 pt-4 w-full">
+          <button class="flex-1 py-3 text-xs bg-stone-100 border border-stone-200 rounded-full font-bold" bindtap="restartTryOn">重新运算</button>
+          <button class="flex-1 py-3 text-xs bg-black text-white rounded-full font-bold" bindtap="confirmTryOn">确认选用</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{showShopModal}}" class="modal-overlay">
+    <view class="modal-content">
+      <text class="text-lg text-serif font-bold text-stone-900 mb-2">买前决策辅助</text>
+      <text class="text-xs text-stone-500 mb-6">上传商场中试穿衣服，AI 帮您判断其是否契合您已有衣橱风格，降低盲目网购闲置概率。</text>
+      
+      <view class="bg-stone-50 p-4 rounded-2xl mb-4">
+        <text class="text-xs font-bold text-stone-700 mb-2 block">演示：对比您的林夏 (Lin Xia) 个人特质：</text>
+        <view class="grid grid-cols-3 gap-2 text-center">
+          <view class="p-2.5 bg-white border border-stone-200 rounded-xl">
+            <text class="text-xs text-stone-400 font-bold block">身高比例</text>
+            <text class="font-bold text-stone-800">168cm</text>
+          </view>
+          <view class="p-2.5 bg-white border border-stone-200 rounded-xl">
+            <text class="text-xs text-stone-400 font-bold block">推荐风格</text>
+            <text class="font-bold text-stone-800">简约 / 职场</text>
+          </view>
+          <view class="p-2.5 bg-white border border-stone-200 rounded-xl">
+            <text class="text-xs text-stone-400 font-bold block">衣橱相容度</text>
+            <text class="font-bold text-emerald-600 text-serif">高</text>
+          </view>
+        </view>
+      </view>
+
+      <view class="p-4 border border-stone-200/80 rounded-2xl flex items-center gap-4 bg-white">
+        <view style="width: 48px; height: 64px; border-radius: 8px; overflow: hidden; background: #f5f5f4;">
+          <image src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSzDLae7uPxJspwTHozhlL3vbtickM0T7zHZ4JIoWwye0p6YXyDmPrWGHHkjEkAVdUSq7AoIfhejLtUU89Dn8yYH0VTeNe_bUTy24fYur-kB6aqB-18Ivl61oJbPP_C6KQ9TNZ0w0sQeHBiOavBGAED-CLRrIsSKGSofkA6qT6YweyQNhj7hKjcFpuiCScBT6horZ-mUu12ZwUiYJ9VCsVFOFDlwAAc6m9A51zS4iz1ldKuzQsio-0n0iZqTvbr09qY9cxYg-nryaH" mode="aspectFill" style="width: 100%; height: 100%;"></image>
+        </view>
+        <view class="flex-1">
+          <text class="text-xs font-bold text-stone-800 block">Doubt Items: 米色羊绒开衫</text>
+          <text class="text-xs text-stone-400 font-medium">诊断: 匹配度 92% (非常安全! 完美解决外套不足缺口)</text>
+        </view>
+      </view>
+
+      <button class="w-full py-3.5 bg-black text-xs text-white rounded-full font-bold mt-6" bindtap="closeShopModal">关闭诊断</button>
+    </view>
+  </view>
+</view>

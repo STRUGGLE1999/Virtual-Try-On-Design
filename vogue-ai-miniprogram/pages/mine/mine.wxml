@@ -1,0 +1,173 @@
+<view class="container">
+  <view class="profile-header">
+    <view class="avatar-wrap">
+      <image src="{{userProfile.avatarUrl}}" mode="aspectFill" class="avatar-image"></image>
+    </view>
+    <view class="profile-info">
+      <text class="text-3xl text-serif font-bold text-stone-900">{{userProfile.name}} ({{userProfile.englishName}})</text>
+      <view class="flex flex-wrap justify-center gap-2 mt-2">
+        <text wx:for="{{userProfile.styleTags}}" wx:key="index" class="style-tag {{getTagClass(index)}}">{{item}}</text>
+      </view>
+    </view>
+    <view class="body-params">
+      <view class="param-item">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 opacity-60">身高</text>
+        <text class="font-bold text-stone-900 text-sm mt-1 block">{{userProfile.height}}</text>
+      </view>
+      <view class="param-divider"></view>
+      <view class="param-item">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 opacity-60">体重</text>
+        <text class="font-bold text-stone-900 text-sm mt-1 block">{{userProfile.weight}}</text>
+      </view>
+      <view class="param-divider"></view>
+      <view class="param-item">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 opacity-60">体型</text>
+        <text class="font-bold text-stone-900 text-sm mt-1 block">{{userProfile.bodyShape}}</text>
+      </view>
+    </view>
+    <view class="avoid-colors">
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">避免颜色</text>
+      <view class="flex items-center gap-2 mt-2">
+        <view wx:for="{{avoidedColors}}" wx:key="index" class="color-dot" style="background-color: {{item.hex}}" bindtap="onRemoveColor" data-name="{{item.name}}">
+          <view class="color-delete">
+            <text style="font-size: 10px;">×</text>
+          </view>
+        </view>
+        <view class="color-add-btn" bindtap="onShowColorPicker">
+          <text style="font-size: 14px;">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-space">
+    <text class="text-xs uppercase font-bold tracking-widest text-stone-400 block mb-4">衣橱诊断</text>
+
+    <view class="card relative overflow-hidden mb-4">
+      <view class="flex items-center justify-between">
+        <view>
+          <text class="text-xs uppercase font-bold tracking-widest text-stone-400">智能综合评分</text>
+          <view class="flex items-baseline gap-1 mt-1">
+            <text class="text-4xl text-serif font-black text-stone-900">{{diagnosticScore}}</text>
+            <text class="text-xs font-bold text-stone-500">/100</text>
+          </view>
+        </view>
+        <view class="score-circle">
+          <view class="score-circle-bg"></view>
+          <view class="score-circle-progress" style="transform: rotate({{scoreRotate}}deg);"></view>
+          <text class="score-level">A LEVEL</text>
+        </view>
+      </view>
+      <view class="absolute -right-4 -bottom-4 w-32 h-32 bg-stone-100 rounded-full blur-3xl -z-10"></view>
+    </view>
+
+    <view class="grid grid-cols-2 gap-4 mb-4">
+      <view class="card">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400 block">常穿率</text>
+        <text class="text-2xl text-serif font-bold text-stone-900 mt-1">{{userProfile.diagnostic['常穿率']}}%</text>
+        <view class="w-full h-1 bg-stone-100 rounded-full mt-2 overflow-hidden">
+          <view class="h-full bg-stone-900 rounded-full" style="width: {{userProfile.diagnostic['常穿率']}}%"></view>
+        </view>
+      </view>
+      <view class="card">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400 block">闲置率</text>
+        <text class="text-2xl text-serif font-bold text-stone-900 mt-1">{{userProfile.diagnostic['闲置率']}}%</text>
+        <view class="w-full h-1 bg-stone-100 rounded-full mt-2 overflow-hidden">
+          <view class="h-full bg-red-500 rounded-full" style="width: {{userProfile.diagnostic['闲置率']}}%"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="card flex gap-4 items-start">
+      <view class="p-2 bg-stone-50 border border-stone-100 rounded-xl text-stone-800 shrink-0">
+        <text style="font-size: 20px;">💡</text>
+      </view>
+      <view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-800 block mb-1">{{userProfile.diagnostic.gapTitle}} (GAPS RECOMMEND)</text>
+        <text class="text-xs text-stone-600 leading-relaxed font-medium">{{userProfile.diagnostic.gapSuggestion}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-space">
+    <text class="text-xs uppercase font-bold tracking-widest text-stone-400 block mb-4">风格偏好总结</text>
+
+    <view class="space-y-2">
+      <view class="flex items-center justify-between p-4 bg-stone-50 border border-stone-100 rounded-2xl">
+        <view class="flex items-center gap-3">
+          <text style="font-size: 16px;">🏆</text>
+          <text class="font-bold text-stone-800 text-sm">职场通勤风格</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-400 bg-stone-100 px-2.5 py-0.5 rounded-full">高频首选</text>
+      </view>
+      <view class="flex items-center justify-between p-4 bg-stone-50 border border-stone-100 rounded-2xl">
+        <view class="flex items-center gap-3">
+          <text style="font-size: 16px;">🚀</text>
+          <text class="font-bold text-blue-600 text-sm">周末休闲松弛款</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-white bg-blue-600 px-2.5 py-0.5 rounded-full">快速上升趋势</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-space">
+    <view class="tool-grid">
+      <view class="tool-item" bindtap="onShowFavorites">
+        <view class="tool-icon">
+          <text style="font-size: 18px;">❤️</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-600 mt-2">我的收藏</text>
+      </view>
+      <view class="tool-item" bindtap="goToCalendar">
+        <view class="tool-icon">
+          <text style="font-size: 18px;">📅</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-600 mt-2">穿搭历史</text>
+      </view>
+      <view class="tool-item" bindtap="goToShopHelper">
+        <view class="tool-icon">
+          <text style="font-size: 18px;">🛍️</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-600 mt-2">买前试穿</text>
+      </view>
+      <view class="tool-item" bindtap="onAIConfig">
+        <view class="tool-icon">
+          <text style="font-size: 18px;">⚙️</text>
+        </view>
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-600 mt-2">AI配置</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <view class="flex justify-center items-center gap-2 text-stone-400">
+      <text style="font-size: 18px;">🛡️</text>
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-500 block mt-1">AI 智能算法保障体系</text>
+    </view>
+    <text class="text-xs text-stone-400 font-medium max-w-[280px] mx-auto opacity-70 leading-relaxed text-center block mt-2">穿搭建议根据体型数据与全球高定时尚大数据拟真重绘。本平台仅提供客观顾问意见，尊重每种多元风格主张。</text>
+  </view>
+
+  <view wx:if="{{showColorPicker}}" class="modal-overlay" bindtap="onCloseColorPicker">
+    <view class="modal-content" catchtap="stopPropagation">
+      <text class="text-lg text-serif font-bold text-stone-900 mb-4">追加避免色</text>
+      
+      <view class="mb-4">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mb-1 block">颜色名称</text>
+        <input type="text" placeholder="例如: 暖粉色, 莫兰迪蓝" value="{{newColorName}}" bindinput="onColorNameInput" class="color-input" />
+      </view>
+
+      <view class="mb-4">
+        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mb-2 block">颜色拾取</text>
+        <view class="flex items-center gap-3">
+          <view class="color-preview" style="background-color: {{newColorHex}}" bindtap="onPickColor"></view>
+          <input type="text" value="{{newColorHex}}" bindinput="onColorHexInput" class="hex-input" />
+        </view>
+      </view>
+
+      <view class="flex gap-2 pt-2">
+        <button class="flex-1 py-3 text-xs bg-stone-100 text-stone-700 font-bold border border-stone-200 rounded-full" bindtap="onCloseColorPicker">取消</button>
+        <button class="flex-1 py-3 text-xs bg-black text-white font-bold rounded-full" bindtap="onConfirmAddColor">确认追加</button>
+      </view>
+    </view>
+  </view>
+</view>

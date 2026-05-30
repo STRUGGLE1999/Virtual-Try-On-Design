@@ -1,0 +1,6 @@
+<!-- 占位符 - 首页图标 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="81" height="81" viewBox="0 0 81 81">
+  <rect width="81" height="81" fill="#f5f5f4" rx="18"/>
+  <path d="M40.5 20L50 32H31L40.5 20Z" fill="#78716c"/>
+  <rect x="30" y="35" width="21" height="26" rx="3" fill="#78716c"/>
+</svg>

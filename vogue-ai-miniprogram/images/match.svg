@@ -1,0 +1,6 @@
+<!-- 占位符 - 搭配图标 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="81" height="81" viewBox="0 0 81 81">
+  <rect width="81" height="81" fill="#f5f5f4" rx="18"/>
+  <circle cx="40.5" cy="40.5" r="25" fill="none" stroke="#0041c9" stroke-width="3"/>
+  <path d="M32 40.5L40.5 32L49 40.5L40.5 49Z" fill="#0041c9"/>
+</svg>
