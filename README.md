@@ -42,8 +42,7 @@
   <tr>
     <td width="33%" align="center">
       <b>🏠 1. 智能穿搭推荐 (首页)</b><br/><br/>
-      <img src="<img width="590" height="1224" alt="image" src="https://github.com/user-attachments/assets/87968274-2af4-4907-9659-a2be7ec18145" />
-" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/87968274-2af4-4907-9659-a2be7ec18145" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示天气极简卡片、精美推荐封面，以及多功能快捷入口（单品识别、虚拟试穿、买前试穿等）。</font></p>
     </td>
     <td width="33%" align="center">
