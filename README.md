@@ -30,25 +30,38 @@
 
 ---
 
-## 👔 核心功能板块结构
+## 👔 核心功能板块结构与原型图预览
 
 在保留小程序底座的同时，主线业务板块（各个底栏选项卡）的颜色色调、亮色质感、交互设计和配色哲学均保持了时尚奢华的主色调，给您营造出完美的“掌上时尚试衣间”体验：
 
-* **🏠 首页（智能穿衣推荐 / 穿搭面板）：**
-  * 显示今日气温、空气质量以及当前场合、风格选择。
-  * 给予 AI 每日量身定制的一键服装推荐配方。
-* **👚 我的衣橱（可视化数字货柜）：**
-  * 完美收纳上装、下装、鞋履、配饰。
-  * 支持模糊搜索、品类精确过滤筛选，以及智能上架新衣物流程。
-* **✨ 智能搭配（AI 创意引擎）：**
-  * 提供「生成新搭配」、「今日幸运色方案」两套智能引擎。
-  * 可对单品进行自由的“一键替换”从而不断精细化匹配，满足多场景转换，并包含搭配评分。
-* **📅 穿搭日历（行程穿搭日程表）：**
-  * 与行历关联，标记每日的工作、会议、野餐或酒会行程。
-  * 自动绑定最佳出行搭配，让生活更具仪式感。
-* **👤 个人档案中心（穿搭偏好配置）：**
-  * 定制时尚风格偏好（极简主义、雅痞、高能街头、商务休闲）。
-  * 管理体型特征数据，以及穿搭灵感收集库。
+### 📸 小程序原型界面预览 (Prototype Mockup Previews)
+
+<table width="100%">
+  <tr>
+    <td width="50%" align="center">
+      <b>🏠 1. 智能穿衣推荐（小程序首页）</b><br/><br/>
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&q=80&w=600" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示当地天气与今日空气质量，AI 根据气温自动进行材质推荐。配有简洁的场合及风格过滤操作，展现时尚流利的大图精美推荐。</font></p>
+    </td>
+    <td width="50%" align="center">
+      <b>👚 2. 可视化衣橱（我的数字衣柜）</b><br/><br/>
+      <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?auto=format&fit=crop&q=80&w=600" alt="可视化数字衣柜" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 采用 2×2 精美格子布局，带分类过滤切片（上装、下装、鞋履、配饰），支持输入框模糊实时搜索，更有智能上架管理，打理每一件精美服饰。</font></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <b>✨ 3. AI 智能搭配（单品组合看板）</b><br/><br/>
+      <img src="https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&q=80&w=600" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 内置「生成新搭配」、「今日幸运色」双模式引擎。AI 自动拼出高契合度单品配方。支持一键重组、喜爱款快捷收藏保存。</font></p>
+    </td>
+    <td width="50%" align="center">
+      <b>📅 4. 穿穿搭日历（出行穿搭行程指南）</b><br/><br/>
+      <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&q=80&w=600" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 12px; margin-bottom: 8px;" width="100%"/>
+      <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 月历日程与穿搭管理完美绑定。轻松添加派对、会议或休闲运动行程，一键附上最合心水的当日搭配，出行大步流星、自信随心。</font></p>
+    </td>
+  </tr>
+</table>
 
 ---
 
