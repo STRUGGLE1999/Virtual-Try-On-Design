@@ -1,0 +1,6 @@
+{
+  "name": "Vogue AI",
+  "description": "An elite AI-powered digital wardrobe and virtual styling assistant fusing luxury fashion aesthetics with forward-thinking smart recommendations, closet diagnostics, and outfit calendars.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
