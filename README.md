@@ -42,29 +42,29 @@
   <tr>
     <td width="33%" align="center">
       <b>🏠 1. 智能穿搭推荐 (首页)</b><br/><br/>
-      <img src="input_file_0.png" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/87968274-2af4-4907-9659-a2be7ec18145" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示天气极简卡片、精美推荐封面，以及多功能快捷入口（单品识别、虚拟试穿、买前试穿等）。</font></p>
     </td>
     <td width="33%" align="center">
       <b>👚 2. 精致数字衣橱 (衣橱)</b><br/><br/>
-      <img src="input_file_1.png" alt="高级数字衣橱" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/3c53173a-f196-4a0c-b103-b7bdbc98f8cd" alt="高级数字衣橱" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 可视化卡片滑动式「AI 识别队列」，对上新单品材质、品类、颜色和风格标签进行无感识别入库。</font></p>
     </td>
     <td width="33%" align="center">
       <b>✨ 3. AI 智能搭配 (搭配)</b><br/><br/>
-      <img src="input_file_2.png" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/2c3c0f22-6c09-4597-ab1c-568dda4280ef" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 匹配度、风格风险与复穿度数字化量化，生成科学配比多件套，可对内搭/鞋履/下装点击智能一键重组。</font></p>
     </td>
   </tr>
   <tr>
     <td width="33%" align="center">
       <b>📅 4. 穿法出行日历 (日历)</b><br/><br/>
-      <img src="input_file_3.png" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/85ff91f8-0a8e-4c87-8307-c86336cc90d7" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 极简月历式行程提醒，每天日程深度联结穿搭打卡记录，可一键批量设置气味、满意度星级与明日出行提醒。</font></p>
     </td>
     <td width="33%" align="center">
       <b>👤 5. 个人档案中心 (我的)</b><br/><br/>
-      <img src="input_file_4.png" alt="个人穿搭健康档案" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="https://github.com/user-attachments/assets/b87cc4e1-cd6b-4566-90b3-3f92664439aa" alt="个人穿搭健康档案" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 体维与形象特征模型（身高、体重、沙漏体型），衣橱诊断等级大底盘（利用率、闲置比率与缺口推荐）。</font></p>
     </td>
     <td width="33%" align="center" valign="top">
