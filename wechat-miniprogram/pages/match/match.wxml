@@ -1,0 +1,93 @@
+<!--pages/match/match.wxml-->
+<view class="container">
+  <view class="m-b-30">
+    <text class="text-xs text-muted block uppercase">Match Analysis Matrix</text>
+    <text class="luxury-title block">AI 智能搭配分析</text>
+  </view>
+
+  <!-- Metric Statistics Cards Grid -->
+  <view class="stats-row flex-row">
+    <view class="stat-box card">
+      <text class="stat-val font-bold">{{matchScore}}%</text>
+      <text class="stat-name text-xs text-muted">适配匹配度</text>
+    </view>
+    <view class="stat-box card">
+      <text class="stat-val font-bold">{{repeatCount}} 次</text>
+      <text class="stat-name text-xs text-muted">本月穿搭率</text>
+    </view>
+    <view class="stat-box card">
+      <text class="stat-val font-bold" style="color: #10b981;">{{styleRisk}}</text>
+      <text class="stat-name text-xs text-muted">风格过度风险</text>
+    </view>
+  </view>
+
+  <!-- Slots Combination layout -->
+  <view class="slots-layout">
+    <view class="flex-row slots-inner">
+      <!-- Left side: Big Outerwear slot -->
+      <view class="slot-container left-side card {{activeSlot === 'outerwear' ? 'active' : ''}}" bindtap="onSlotSelect" data-slot="outerwear">
+        <image src="{{outerwear.imageUrl}}" mode="aspectFill" class="slot-image"></image>
+        <view class="slot-overlay">
+          <text class="slot-badge">{{outerwear.categoryLabel}}</text>
+          <text class="slot-title text-xs text-truncate">{{outerwear.name}}</text>
+        </view>
+      </view>
+
+      <!-- Right side: Two stacked slots: Inner and Pants -->
+      <view class="right-side">
+        <!-- Top slot: Inner T-shirt/sweater -->
+        <view class="slot-container card m-b-20 {{activeSlot === 'top' ? 'active' : ''}}" bindtap="onSlotSelect" data-slot="top">
+          <image src="{{top.imageUrl}}" mode="aspectFill" class="slot-image"></image>
+          <view class="slot-overlay">
+            <text class="slot-badge">{{top.categoryLabel}}</text>
+            <text class="slot-title text-xs text-truncate">{{top.name}}</text>
+          </view>
+        </view>
+
+        <!-- Bottom slot: Lower Pants -->
+        <view class="slot-container card {{activeSlot === 'bottom' ? 'active' : ''}}" bindtap="onSlotSelect" data-slot="bottom">
+          <image src="{{bottom.imageUrl}}" mode="aspectFill" class="slot-image"></image>
+          <view class="slot-overlay">
+            <text class="slot-badge">{{bottom.categoryLabel}}</text>
+            <text class="slot-title text-xs text-truncate">{{bottom.name}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Slots Options Pool Swapper Drawer Drawer -->
+  <view class="card option-pool-box animated-fadeIn" wx:if="{{activeSlot}}">
+    <view class="flex-between m-b-20 border-bottom">
+      <text class="font-bold text-sm">选择替换单品 ({{activeSlot === 'outerwear' ? '外套' : activeSlot === 'top' ? '内穿' : '下行裤装'}})</text>
+      <text class="text-xs text-muted" bindtap="onSlotSelect" data-slot="">✕ 关闭</text>
+    </view>
+
+    <scroll-view class="option-scroll" scroll-x="true" enable-flex="true">
+      <block wx:if="{{activeSlot === 'outerwear'}}">
+        <view class="opt-card" wx:for="{{outerwearOptions}}" wx:key="id" bindtap="selectOption" data-slot="outerwear" data-option="{{item}}">
+          <image src="{{item.imageUrl}}" class="opt-thumb" mode="aspectFill"></image>
+          <text class="opt-title text-xs text-truncate block">{{item.name}}</text>
+        </view>
+      </block>
+      <block wx:if="{{activeSlot === 'top'}}">
+        <view class="opt-card" wx:for="{{topOptions}}" wx:key="id" bindtap="selectOption" data-slot="top" data-option="{{item}}">
+          <image src="{{item.imageUrl}}" class="opt-thumb" mode="aspectFill"></image>
+          <text class="opt-title text-xs text-truncate block">{{item.name}}</text>
+        </view>
+      </block>
+      <block wx:if="{{activeSlot === 'bottom'}}">
+        <view class="opt-card" wx:for="{{bottomOptions}}" wx:key="id" bindtap="selectOption" data-slot="bottom" data-option="{{item}}">
+          <image src="{{item.imageUrl}}" class="opt-thumb" mode="aspectFill"></image>
+          <text class="opt-title text-xs text-truncate block">{{item.name}}</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <!-- Try-on mechanisms -->
+  <view class="action-footer m-t-30">
+    <button class="btn btn-primary full-width m-b-20" bindtap="onVirtualTryOn">✨ 3D 合体虚拟试穿</button>
+    <button class="btn btn-secondary full-width" bindtap="onGenerateOutfit">🔄 自动再重组一套完美搭配</button>
+  </view>
+</view>

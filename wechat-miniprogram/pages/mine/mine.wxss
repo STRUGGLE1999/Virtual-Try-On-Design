@@ -1,0 +1,152 @@
+/* pages/mine/mine.wxss */
+.profile-header {
+  margin-top: 10rpx;
+  gap: 24rpx;
+}
+
+.avatar {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  border: 4rpx solid #ffffff;
+  box-shadow: 0 4rpx 15rpx rgba(0,0,0,0.06);
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.user-name {
+  color: #1a1a1a;
+}
+
+.edit-badge {
+  background-color: #ffffff;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  border: 1rpx solid rgba(0,0,0,0.04);
+  margin-left: 16rpx;
+}
+
+.tags-row {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.body-card {
+  padding: 24rpx;
+}
+
+.body-grids {
+  display: flex;
+  flex-direction: row;
+}
+
+.body-item {
+  flex: 1;
+  border-right: 1rpx solid #f1f3f5;
+}
+
+.body-item:last-child {
+  border-right: none;
+}
+
+.color-avoid-card {
+  padding: 24rpx;
+}
+
+.color-bubbles {
+  gap: 12rpx;
+}
+
+.color-bub {
+  background-color: #f8f9fa;
+  padding: 6rpx 16rpx;
+  border-radius: 100rpx;
+  gap: 8rpx;
+  border: 1rpx solid rgba(0,0,0,0.03);
+}
+
+.color-bub .dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+}
+
+.add-color-bub {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background-color: #f1f3f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888888;
+  font-weight: bold;
+}
+
+.refresh-action {
+  padding: 6rpx 16rpx;
+  background-color: rgba(79, 70, 229, 0.05);
+  border-radius: 8rpx;
+}
+
+.diagnosis-card {
+  padding: 30rpx;
+}
+
+.diag-header {
+  gap: 40rpx;
+  margin-bottom: 30rpx;
+}
+
+.score-ring {
+  width: 150rpx;
+  height: 150rpx;
+  border-radius: 50%;
+  border: 10rpx solid #4f46e5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-num {
+  font-size: 34rpx;
+  color: #1a1a1a;
+  line-height: 1.1;
+}
+
+.diag-rates {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.rate-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #f8f9fa;
+  padding-bottom: 10rpx;
+}
+
+.rate-num {
+  font-size: 30rpx;
+}
+
+.gap-title-row {
+  gap: 10rpx;
+}
+
+.pt-20 {
+  padding-top: 20rpx;
+}
+
+.m-t-10 { margin-top: 10rpx; }
+.m-b-30 { margin-bottom: 30rpx; }
+.pr-10 { padding-right: 10rpx; }

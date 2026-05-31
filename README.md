@@ -42,29 +42,29 @@
   <tr>
     <td width="33%" align="center">
       <b>🏠 1. 智能穿搭推荐 (首页)</b><br/><br/>
-      <img src="https://github.com/user-attachments/assets/87968274-2af4-4907-9659-a2be7ec18145" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="input_file_0.png" alt="智能穿搭首页推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 顶部展示天气极简卡片、精美推荐封面，以及多功能快捷入口（单品识别、虚拟试穿、买前试穿等）。</font></p>
     </td>
     <td width="33%" align="center">
       <b>👚 2. 精致数字衣橱 (衣橱)</b><br/><br/>
-      <img src="https://github.com/user-attachments/assets/3c53173a-f196-4a0c-b103-b7bdbc98f8cd" alt="高级数字衣橱" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="input_file_1.png" alt="高级数字衣橱" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 可视化卡片滑动式「AI 识别队列」，对上新单品材质、品类、颜色和风格标签进行无感识别入库。</font></p>
     </td>
     <td width="33%" align="center">
       <b>✨ 3. AI 智能搭配 (搭配)</b><br/><br/>
-      <img src="https://github.com/user-attachments/assets/2c3c0f22-6c09-4597-ab1c-568dda4280ef" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="input_file_2.png" alt="AI智能组合推荐" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 匹配度、风格风险与复穿度数字化量化，生成科学配比多件套，可对内搭/鞋履/下装点击智能一键重组。</font></p>
     </td>
   </tr>
   <tr>
     <td width="33%" align="center">
       <b>📅 4. 穿法出行日历 (日历)</b><br/><br/>
-      <img src="https://github.com/user-attachments/assets/85ff91f8-0a8e-4c87-8307-c86336cc90d7" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="input_file_3.png" alt="穿搭出行日历日程" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 极简月历式行程提醒，每天日程深度联结穿搭打卡记录，可一键批量设置气味、满意度星级与明日出行提醒。</font></p>
     </td>
     <td width="33%" align="center">
       <b>👤 5. 个人档案中心 (我的)</b><br/><br/>
-      <img src="https://github.com/user-attachments/assets/b87cc4e1-cd6b-4566-90b3-3f92664439aa" alt="个人穿搭健康档案" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
+      <img src="input_file_4.png" alt="个人穿搭健康档案" referrerPolicy="no-referrer" style="border-radius: 16px; border: 1px solid #eaeaea; margin-bottom: 8px;" width="100%"/>
       <p align="left"><font size="2" color="gray"><b>设计亮点：</b> 体维与形象特征模型（身高、体重、沙漏体型），衣橱诊断等级大底盘（利用率、闲置比率与缺口推荐）。</font></p>
     </td>
     <td width="33%" align="center" valign="top">
@@ -81,9 +81,46 @@
 
 ---
 
-## 🛠️ 技术实现要点
+## 🛠️ 设计方案与技术实现
 
-* **驱动框架：** React 18 & TypeScript
-* **动态编译机制：** Vite HMR Disabled Mode, 支持热打包 Cloud Run 服务
-* **设计语言：** 移动优先的 Tailwind CSS 响应式原子化框架配合
-* **动态模拟器容器：** 外围包裹有立体硬核磨砂感「黑色智能机边框」，在电脑屏幕上查看亦可获得等同于物理真机屏幕的纵横比（Perfect Mobile Ratio）。
+* **原型框架：** React 18 & TypeScript + Tailwind CSS 自适应层。
+* **原生方案：** 已为您同步生成符合腾讯官方规范的 **微信小程序原生代码框架 (WeChat Native WXML/WXSS/JS/JSON)**。它位于项目根目录下的 `/wechat-miniprogram` 文件夹中。
+
+---
+
+## 🚀 微信开发者工具导入与运行指南 (WeChat Native Code Deployment)
+
+想直接在真机、模拟器或 **微信开发者工具** 中体验或发布这款时尚穿搭小程序？请按照以下极简步骤操作：
+
+### 1. 导出/下载小程序原生工程
+* 您可以通过 AI Studio 的右侧文件树或设置导出菜单，下载 **整个项目 ZIP 包** 或是只提取 `wechat-miniprogram` 独立文件夹。
+* `/wechat-miniprogram` 文件夹已按微信官方标准规划好目录结构：
+  ```bash
+  wechat-miniprogram/
+  ├── app.js           # 全局配置 & 生命周期 & 林夏等初始画像数据
+  ├── app.json         # 底部 5 大 Tab 路由导航、顶栏配色与窗口配置
+  ├── app.wxss         # 极致高对比度奢华设计全局样式底盘
+  └── pages/           # 五大时尚模块核心页面
+      ├── home/        # 1. 智能穿搭推荐主页
+      ├── wardrobe/    # 2. 数字实景衣橱（含动态AI队列）
+      ├── match/       # 3. AI 交互式衣片重组/合体试穿板
+      ├── calendar/    # 4. 行程穿搭日记记录日历
+      └── mine/        # 5. 体型档案及诊断分析中心
+  ```
+
+### 2. 导入到微信开发者工具
+1. 打开 [微信开发者工具](https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html)。
+2. 选择 **「小程序」**，点击右侧的 **「+ (新建/导入)」**。
+3. **选择项目目录：** 将路径指定为您下载或提取的 `wechat-miniprogram` 文件夹（也就是包含 `app.json` 的直属目录）。
+4. **AppID：** 
+   * 如果您只是离线预览或调试功能，可以选择 **「测试号 (游客模式)」**；
+   * 如果您拥有自己的小程序账号，可填入您微信公众平台的 `AppID`，即可一键上传至草稿箱并进行真机扫码预览。
+5. 点击 **「确定/导入」**。
+
+### 3. 特色互动核验
+* **AI 真实数据同步：** 预置了牛津纺衬衫、CELINE大衣等时尚单品的在线高清资源图，无任何本地损坏报错风险。
+* **双模态快捷交互：** 
+  * 在「衣橱」页轻点 AI 识别队列单品，然后点击 **「确认入库」** 即可瞬间将服装移动到「我的衣橱」格子里。
+  * 在「搭配」页轻点三大卡片槽，会即刻唤起底部半屏组件，选择心水单品进行一键换装，重新计算得分。
+  * 在「日历」页点击有蓝色标记的日期（3-7、10-13日），下方将无缝呈现那天的打卡穿衣、星级打分以及防撞衫警报状态。
+

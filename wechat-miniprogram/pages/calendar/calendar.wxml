@@ -1,0 +1,72 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="container">
+  <view class="flex-between m-b-30">
+    <view>
+      <text class="text-xs text-muted block uppercase">FASHION CALENDAR METHOD</text>
+      <text class="luxury-title block">今日行历穿衣</text>
+    </view>
+    <view class="month-label font-bold text-md">May 2026</view>
+  </view>
+
+  <!-- Interactive Monthly grid -->
+  <view class="card calendar-card">
+    <view class="weekdays-grid">
+      <view class="weekday-cell" wx:for="{{weekdays}}" wx:key="*this">{{item}}</view>
+    </view>
+
+    <view class="days-grid">
+      <view 
+        class="day-cell {{item.active ? 'active' : ''}} {{item.hasLog ? 'has-log' : ''}} {{!item.num ? 'empty' : ''}}" 
+        wx:for="{{days}}" 
+        wx:key="index"
+        bindtap="selectDay"
+        data-day="{{item.num}}"
+      >
+        <text class="day-num">{{item.num}}</text>
+        <view class="log-indicator" wx:if="{{item.hasLog}}"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Log Info card for Selected day -->
+  <text class="section-title font-bold text-md block m-b-20">🎯 5月{{selectedDayNum}}日 搭配详情</text>
+  
+  <block wx:if="{{activeDayLog}}">
+    <view class="card log-card">
+      <view class="flex-between m-b-20">
+        <text class="outfit-name font-bold text-md">{{activeDayLog.outfitName}}</text>
+        <view class="stars-row">
+          <text class="star-icon" wx:for="{{[1,2,3,4,5]}}" wx:for-item="star" wx:key="*this" style="color: {{star <= activeDayLog.rating ? '#eab308' : '#e2e8f0'}};">★</text>
+        </view>
+      </view>
+
+      <view class="items-row flex-row">
+        <view class="item-pic-card" wx:for="{{activeDayLog.items}}" wx:key="id">
+          <image src="{{item.imageUrl}}" class="item-pic-thumb" mode="aspectFill"></image>
+          <text class="item-pic-title text-xs text-truncate block">{{item.name}}</text>
+        </view>
+        <view class="item-pic-add text-center" bindtap="addDayLog">
+          <text class="add-symbol block">+</text>
+          <text class="text-xs text-muted block">添加衣服</text>
+        </view>
+      </view>
+
+      <view class="flex-between m-t-20 border-top pt-20">
+        <view class="alert-block">
+          <text class="text-xs text-muted block">避免重复提示</text>
+          <text class="alert-status text-xs font-bold" style="color: {{activeDayLog.repeatAlert ? '#3b82f6' : '#888'}};">✔️ {{activeDayLog.repeatAlert ? '已启用监控' : '未启用'}}</text>
+        </view>
+        <button class="btn-micro" bindtap="onTriggerRepeatAlert">设置提醒</button>
+      </view>
+    </view>
+  </block>
+
+  <block wx:else>
+    <view class="card no-log-card text-center" bindtap="addDayLog">
+      <view class="empty-icon">📅</view>
+      <text class="block font-bold text-sm m-b-10">该日程尚无安排穿搭</text>
+      <text class="block text-xs text-muted m-b-20">轻点导入您的专属AI推荐，开启精致出行仪式感</text>
+      <button class="btn btn-secondary inline-block">➕ 添加出行搭配</button>
+    </view>
+  </block>
+</view>

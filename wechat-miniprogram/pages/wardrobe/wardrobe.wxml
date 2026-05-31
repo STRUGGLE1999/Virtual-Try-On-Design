@@ -1,0 +1,85 @@
+<!--pages/wardrobe/wardrobe.wxml-->
+<view class="container">
+  <!-- Top Count and Add Button -->
+  <view class="flex-between header-row">
+    <text class="count-tag text-sm text-muted">{{initialWardrobeItems.length}} 件入库单品 · {{pendingQueue.length}} 件待识别</text>
+    <view class="add-btn flex-row" bindtap="onAddItem">
+      <text class="add-icon">+</text>
+      <text class="text-sm font-bold">上架新衣</text>
+    </view>
+  </view>
+
+  <!-- Search input bar -->
+  <view class="search-box m-b-20">
+    <input 
+      type="text" 
+      placeholder="🔍 搜索衣物名称、品牌、标签..." 
+      value="{{searchTerm}}" 
+      bindinput="onSearchInput" 
+      class="search-input"
+    />
+  </view>
+
+  <!-- AI Identification Queue Slider -->
+  <view class="ai-scanning-section" wx:if="{{pendingQueue.length > 0}}">
+    <text class="section-title font-bold text-md block m-b-20">🤖 AI 正在识别队列 ({{pendingQueue.length}})</text>
+    
+    <scroll-view class="pending-scroll" scroll-x="true" enable-flex="true">
+      <view 
+        class="pending-card {{activePendingIndex === index ? 'active' : ''}}" 
+        wx:for="{{pendingQueue}}" 
+        wx:key="id"
+        bindtap="selectPending"
+        data-index="{{index}}"
+      >
+        <image src="{{item.imageUrl}}" class="pending-thumbnail" mode="aspectFill"></image>
+        <view class="confirm-overlay" wx:if="{{activePendingIndex === index}}">
+          <text class="confirm-tick">✓ 选中</text>
+        </view>
+      </view>
+    </scroll-view>
+
+    <!-- Scan Info Card -->
+    <view class="card scan-meta-card" wx:if="{{pendingQueue[activePendingIndex]}}">
+      <view class="flex-between m-b-10">
+        <text class="scan-brand font-bold text-sm">{{pendingQueue[activePendingIndex].brand}}</text>
+        <text class="scan-percent text-primary font-bold text-xs">98% 匹配率</text>
+      </view>
+      <view class="scan-name text-md font-bold text-lg m-b-10">{{pendingQueue[activePendingIndex].name}}</view>
+
+      <view class="scan-grids">
+        <view class="scan-factor"><text class="text-muted block text-xs">材质</text><text class="font-bold text-xs">{{pendingQueue[activePendingIndex].material}}</text></view>
+        <view class="scan-factor"><text class="text-muted block text-xs">适穿季节</text><text class="font-bold text-xs">{{pendingQueue[activePendingIndex].season}}</text></view>
+      </view>
+
+      <button class="btn btn-primary full-width m-t-20" bindtap="triggerAIReidentification">✨ 确认入库到衣橱</button>
+    </view>
+  </view>
+
+  <!-- Categories horizontal filter -->
+  <view class="filter-row flex-row">
+    <view class="filter-item {{selectedCategory === 'all' ? 'active' : ''}}" bindtap="onCategorySelect" data-category="all">全部</view>
+    <view class="filter-item {{selectedCategory === 'top' ? 'active' : ''}}" bindtap="onCategorySelect" data-category="top">上装</view>
+    <view class="filter-item {{selectedCategory === 'bottom' ? 'active' : ''}}" bindtap="onCategorySelect" data-category="bottom">下装</view>
+    <view class="filter-item {{selectedCategory === 'outerwear' ? 'active' : ''}}" bindtap="onCategorySelect" data-category="outerwear">外套</view>
+    <view class="filter-item {{selectedCategory === 'shoes' ? 'active' : ''}}" bindtap="onCategorySelect" data-category="shoes">鞋子</view>
+  </view>
+
+  <!-- Inventory list display -->
+  <view class="clothing-grid">
+    <view class="clothing-item card" wx:for="{{filteredItems}}" wx:key="id">
+      <image src="{{item.imageUrl}}" mode="aspectFill" class="clothing-thumb"></image>
+      <view class="clothing-info">
+        <text class="brand-sub block text-xs text-muted">{{item.brand}}</text>
+        <text class="item-title block font-bold text-sm text-truncate">{{item.name}}</text>
+        <view class="tag-row">
+          <text class="badge" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this">{{tag}}</text>
+        </view>
+        <view class="stat-footer flex-between">
+          <text class="worn-hint text-xs text-muted">已穿 {{item.isWornCount}} 次</text>
+          <view class="color-dot" style="background-color: {{item.colorHex}};"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

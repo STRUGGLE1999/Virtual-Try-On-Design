@@ -1,0 +1,53 @@
+<!--pages/home/home.wxml-->
+<view class="container">
+  <!-- Weather status bar -->
+  <view class="weather-bar flex-between">
+    <view>
+      <text class="text-xs text-muted block uppercase">Today's Outfit Option</text>
+      <text class="luxury-title block">AI 智能推荐</text>
+    </view>
+    <view class="occasion-selector flex-row" bindtap="recordToday">
+      <text class="tag-label">📍 {{occasionLabel}}</text>
+    </view>
+  </view>
+
+  <!-- Occasions filter scroll -->
+  <view class="filter-row flex-row">
+    <view class="filter-item {{activeOccasion === 'office' ? 'active' : ''}}" bindtap="switchOccasion" data-oc="office">简约职场</view>
+    <view class="filter-item {{activeOccasion === 'weekend' ? 'active' : ''}}" bindtap="switchOccasion" data-oc="weekend">周末闲余</view>
+    <view class="filter-item {{activeOccasion === 'date' ? 'active' : ''}}" bindtap="switchOccasion" data-oc="date">商务沙龙</view>
+  </view>
+
+  <!-- Recommended Big Preview card -->
+  <view class="card recommend-card">
+    <view class="image-wrapper">
+      <image src="{{currentOutfit.imageUrl}}" mode="aspectFill" class="outfit-image"></image>
+      <view class="temp-badge">{{weatherTemp}}°C | 多云空气优</view>
+    </view>
+
+    <view class="recommend-info">
+      <view class="flex-between m-b-10">
+        <text class="outfit-name font-bold text-lg">{{currentOutfit.name}}</text>
+        <view class="favorite-btn" bindtap="toggleFavorite">
+          <text class="fav-icon">{{currentOutfit.favorite ? '♥ 已入选' : '♡ 选做明日'}}</text>
+        </view>
+      </view>
+      <text class="outfit-desc text-muted text-sm">{{currentOutfit.desc}}</text>
+
+      <view class="recommend-actions flex-row">
+        <button class="btn btn-primary" bindtap="recordToday">📅 记入日常随行</button>
+        <button class="btn btn-secondary" bindtap="changeOutfit">🔄 自动调优搭配</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- Quick features block -->
+  <text class="section-title font-bold text-md">穿衣智能引擎</text>
+  <view class="quick-grid">
+    <view class="grid-item" wx:for="{{quickActions}}" wx:key="id" bindtap="onActionTap" data-id="{{item.id}}">
+      <view class="grid-icon">{{item.icon}}</view>
+      <text class="grid-title font-bold text-sm">{{item.title}}</text>
+      <text class="grid-desc text-muted text-xs">{{item.desc}}</text>
+    </view>
+  </view>
+</view>

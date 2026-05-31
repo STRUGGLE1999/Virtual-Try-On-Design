@@ -1,0 +1,84 @@
+<!--pages/mine/mine.wxml-->
+<view class="container">
+  <!-- Profile details -->
+  <view class="profile-header flex-row m-b-30">
+    <image class="avatar" src="{{userProfile.avatarUrl}}" mode="aspectFill"></image>
+    <view class="profile-info">
+      <view class="flex-row">
+        <text class="user-name font-bold text-lg">{{userProfile.name}}</text>
+        <text class="edit-badge text-xs text-muted" bindtap="onEditProfile">编辑资料 ✏️</text>
+      </view>
+      <view class="tags-row m-t-10">
+        <text class="badge" wx:for="{{userProfile.styleTags}}" wx:key="*this">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Physical details -->
+  <view class="card body-card">
+    <view class="body-grids">
+      <view class="body-item text-center">
+        <text class="block text-muted text-xs">身高</text>
+        <text class="block font-bold text-md m-t-10">{{userProfile.height}}</text>
+      </view>
+      <view class="body-item text-center">
+        <text class="block text-muted text-xs">体重</text>
+        <text class="block font-bold text-md m-t-10">{{userProfile.weight}}</text>
+      </view>
+      <view class="body-item text-center">
+        <text class="block text-muted text-xs">体型</text>
+        <text class="block font-bold text-md m-t-10">{{userProfile.bodyShape}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Color warning tags -->
+  <view class="card color-avoid-card flex-between">
+    <view>
+      <text class="block font-bold text-sm">避雷避开色</text>
+      <text class="block text-xs text-muted">AI 搭配引擎将自动过滤这些高饱和色</text>
+    </view>
+    <view class="flex-row color-bubbles">
+      <view class="color-bub flex-row" wx:for="{{avoidedColors}}" wx:key="name">
+        <view class="dot" style="background-color: {{item.hex}};"></view>
+        <text class="text-xs">{{item.name}}</text>
+      </view>
+      <view class="add-color-bub" bindtap="onAddAvoidedColor">+</view>
+    </view>
+  </view>
+
+  <!-- Automated Closet Diagnostics -->
+  <view class="flex-between m-b-20 pr-10">
+    <text class="section-title font-bold text-md block">👔 衣橱智能分析</text>
+    <text class="refresh-action text-xs text-primary font-bold" bindtap="onRefreshDiagnosis">重新分析 🔄</text>
+  </view>
+
+  <view class="card diagnosis-card">
+    <view class="flex-row diag-header">
+      <view class="score-ring">
+        <text class="score-num font-bold">{{userProfile.diagnostic.overallScore}}分</text>
+        <text class="score-lbl text-xs text-muted">综合评级</text>
+      </view>
+
+      <view class="diag-rates">
+        <view class="rate-item m-b-20">
+          <text class="rate-num font-bold">{{userProfile.diagnostic.regularRate}}%</text>
+          <text class="rate-lbl text-xs text-muted">常穿搭配率</text>
+        </view>
+        <view class="rate-item">
+          <text class="rate-num font-bold" style="color: #ef4444;">{{userProfile.diagnostic.idleRate}}%</text>
+          <text class="rate-lbl text-xs text-muted">死灰闲置比</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Closet gaps suggestion -->
+    <view class="closet-gap-box pt-20 border-top">
+      <view class="flex-row gap-title-row m-b-10">
+        <text class="gap-icon">💡</text>
+        <text class="gap-title font-bold text-sm text-primary">衣橱诊断缺陷</text>
+      </view>
+      <text class="gap-desc text-xs text-muted block">{{userProfile.diagnostic.suggestion}}</text>
+    </view>
+  </view>
+</view>
