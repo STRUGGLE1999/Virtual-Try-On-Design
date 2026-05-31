@@ -1,179 +1,183 @@
-const app = getApp();
+const app = getApp()
 
 Page({
   data: {
-    wardrobeItems: [],
-    pendingQueue: [],
-    searchQuery: '',
-    selectedFilter: 'all',
-    selectedQueueId: '',
-    isClassifying: false,
-    scannedNotify: '',
+    categories: [
+      { id: 'all', label: '全部' },
+      { id: 'Tops', label: '上装' },
+      { id: 'Bottoms', label: '下装' },
+      { id: 'Outerwear', label: '外套' },
+      { id: 'Shoes', label: '鞋履' },
+      { id: 'Accessories', label: '配饰' }
+    ],
+    activeCategory: 'all',
+    items: [],
     filteredItems: [],
-    filterTabs: [
-      { key: 'all', label: '全部' },
-      { key: 'top', label: '上装' },
-      { key: 'bottom', label: '下装' },
-      { key: 'outerwear', label: '外套' }
-    ]
+    selectedItem: null
   },
 
   onLoad() {
-    this.loadData();
+    this.loadItems()
   },
 
   onShow() {
-    this.loadData();
+    this.loadItems()
   },
 
-  loadData() {
-    const globalData = app.globalData;
-    this.setData({
-      wardrobeItems: globalData.wardrobeItems,
-      pendingQueue: globalData.pendingQueue
-    });
-    
-    if (globalData.pendingQueue.length > 0 && !this.data.selectedQueueId) {
-      this.setData({ selectedQueueId: globalData.pendingQueue[0].id });
+  loadItems() {
+    const items = app.globalData.wardrobeItems
+    this.setData({ items })
+    this.filterItems()
+  },
+
+  filterItems() {
+    const { activeCategory, items } = this.data
+    let filteredItems = items
+
+    if (activeCategory !== 'all') {
+      filteredItems = items.filter(item => 
+        item.category === activeCategory || 
+        item.category === this.getCategoryLabel(activeCategory)
+      )
     }
-    
-    this.updateFilteredItems();
+
+    this.setData({ filteredItems })
   },
 
-  updateFilteredItems() {
-    const { wardrobeItems, searchQuery, selectedFilter } = this.data;
-    
-    let filtered = wardrobeItems.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            item.brand.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesCategory = selectedFilter === 'all' || item.category === selectedFilter;
-      return matchesSearch && matchesCategory;
-    });
-    
-    this.setData({ filteredItems: filtered });
-  },
-
-  onSearchInput(e) {
-    this.setData({ searchQuery: e.detail.value });
-    this.updateFilteredItems();
-  },
-
-  onFilterChange(e) {
-    const filter = e.currentTarget.dataset.filter;
-    this.setData({ selectedFilter: filter });
-    this.updateFilteredItems();
-  },
-
-  selectQueueItem(e) {
-    const id = e.currentTarget.dataset.id;
-    this.setData({ selectedQueueId: id });
-  },
-
-  onAIScan() {
-    const selectedItem = this.data.pendingQueue.find(item => item.id === this.data.selectedQueueId);
-    if (!selectedItem) return;
-    
-    this.setData({ isClassifying: true });
-    
-    setTimeout(() => {
-      this.setData({
-        isClassifying: false,
-        scannedNotify: `AI 已重新精确扫描 【${selectedItem.name}】，匹配度达到 99%！`
-      });
-      
-      setTimeout(() => {
-        this.setData({ scannedNotify: '' });
-      }, 3000);
-    }, 1200);
-  },
-
-  onDeposit() {
-    const selectedItem = this.data.pendingQueue.find(item => item.id === this.data.selectedQueueId);
-    if (!selectedItem) return;
-    
-    const deposited = {
-      ...selectedItem,
-      id: `item_dep_${Date.now()}`,
-      isWornCount: 1,
-      isRecentFavorite: true,
-      dateAdded: new Date().toISOString().slice(0, 10)
-    };
-    
-    app.globalData.wardrobeItems.unshift(deposited);
-    app.globalData.pendingQueue = app.globalData.pendingQueue.filter(item => item.id !== this.data.selectedQueueId);
-    
-    const remaining = app.globalData.pendingQueue;
-    if (remaining.length > 0) {
-      this.setData({ selectedQueueId: remaining[0].id });
-    } else {
-      this.setData({ selectedQueueId: '' });
+  getCategoryLabel(id) {
+    const map = {
+      'Tops': '上装',
+      'Bottoms': '下装',
+      'Outerwear': '外套',
+      'Shoes': '鞋履',
+      'Accessories': '配饰'
     }
-    
-    this.setData({
-      wardrobeItems: app.globalData.wardrobeItems,
-      pendingQueue: app.globalData.pendingQueue
-    });
-    this.updateFilteredItems();
-    
-    wx.showToast({
-      title: `【${selectedItem.name}】已入库`,
-      icon: 'success'
-    });
+    return map[id] || id
   },
 
-  onAddQueueItem() {
+  onSelectCategory(e) {
+    const id = e.currentTarget.dataset.id
+    this.setData({ activeCategory: id })
+    this.filterItems()
+  },
+
+  onViewItem(e) {
+    const item = e.currentTarget.dataset.item
+    this.setData({ selectedItem: item })
+  },
+
+  onCloseItem() {
+    this.setData({ selectedItem: null })
+  },
+
+  onToggleFavorite(e) {
+    const id = e.currentTarget.dataset.id
+    const items = app.globalData.wardrobeItems.map(item => {
+      if (item.id === id) {
+        return { ...item, isFavorite: !item.isFavorite }
+      }
+      return item
+    })
+    app.globalData.wardrobeItems = items
+    this.loadItems()
+    
+    if (this.data.selectedItem && this.data.selectedItem.id === id) {
+      const updated = items.find(i => i.id === id)
+      this.setData({ selectedItem: updated })
+    }
+  },
+
+  onDeleteItem(e) {
+    const id = e.currentTarget.dataset.id
     wx.showModal({
-      title: '添加单品',
-      placeholderText: '输入上传衣物名称',
-      content: '真丝长款吊带裙',
+      title: '确认删除',
+      content: '确定要删除这件衣物吗？',
       success: (res) => {
         if (res.confirm) {
-          wx.chooseMedia({
-            count: 1,
-            mediaType: ['image'],
-            sourceType: ['album', 'camera'],
-            success: (res) => {
-              const tempFilePath = res.tempFiles[0].tempFilePath;
-              const newItem = {
-                id: `pending_${Date.now()}`,
-                name: '待识别单品',
-                brand: '用户上传',
-                category: 'top',
-                categoryLabel: '上装',
-                tags: ['#待识别'],
-                material: '待识别',
-                colorName: '待识别',
-                colorHex: '#888888',
-                imageUrl: tempFilePath,
-                isWornCount: 0,
-                isRecentFavorite: false,
-                season: '待识别',
-                dateAdded: new Date().toISOString().slice(0, 10)
-              };
-              
-              app.globalData.pendingQueue.push(newItem);
-              this.setData({
-                pendingQueue: app.globalData.pendingQueue,
-                selectedQueueId: newItem.id
-              });
-              
-              wx.showToast({
-                title: '已添加到识别队列',
-                icon: 'success'
-              });
-            }
-          });
+          app.globalData.wardrobeItems = app.globalData.wardrobeItems.filter(i => i.id !== id)
+          this.loadItems()
+          this.setData({ selectedItem: null })
+          wx.showToast({ title: '已删除', icon: 'success' })
         }
       }
-    });
+    })
   },
 
-  showItemDetail(e) {
-    const item = e.currentTarget.dataset.item;
-    wx.showModal({
-      title: `${item.brand} ${item.name}`,
-      content: `颜色: ${item.colorName}\n复穿频次: ${item.isWornCount}次\n材质: ${item.material}`,
-      showCancel: false
-    });
+  onEditItem(e) {
+    const item = e.currentTarget.dataset.item
+    wx.navigateTo({
+      url: `/pages/capture/capture?editId=${item.id}`
+    })
+  },
+
+  onOpenCamera() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      sourceType: ['camera', 'album'],
+      success: (res) => {
+        const tempFilePath = res.tempFiles[0].tempFilePath
+        wx.navigateTo({
+          url: `/pages/capture/capture?image=${encodeURIComponent(tempFilePath)}`
+        })
+      }
+    })
+  },
+
+  onOpenSearch() {
+    // 暂时使用 toast
+    wx.showToast({ title: '搜索功能开发中', icon: 'none' })
+  },
+
+  getSeasonBg(season) {
+    const map = {
+      '春': 'bg-green-50',
+      '夏': 'bg-blue-50',
+      '秋': 'bg-amber-50',
+      '冬': 'bg-stone-100',
+      '四季': 'bg-purple-50',
+      'Spring': 'bg-green-50',
+      'Summer': 'bg-blue-50',
+      'Fall': 'bg-amber-50',
+      'Winter': 'bg-stone-100',
+      'All-season': 'bg-purple-50'
+    }
+    return map[season] || 'bg-stone-100'
+  },
+
+  getSeasonText(season) {
+    const map = {
+      '春': 'text-emerald-700',
+      '夏': 'text-blue-600',
+      '秋': 'text-amber-900',
+      '冬': 'text-stone-600',
+      '四季': 'text-purple-900',
+      'Spring': 'text-emerald-700',
+      'Summer': 'text-blue-600',
+      'Fall': 'text-amber-900',
+      'Winter': 'text-stone-600',
+      'All-season': 'text-purple-900'
+    }
+    return map[season] || 'text-stone-600'
+  },
+
+  getColorBg(color) {
+    const map = {
+      '黑色': 'bg-black text-white',
+      '白色': 'bg-stone-100',
+      '红色': 'bg-red-500 text-white',
+      '蓝色': 'bg-blue-600 text-white',
+      '绿色': 'bg-emerald-600 text-white',
+      '黄色': 'bg-yellow-400',
+      '粉色': 'bg-pink-200',
+      '紫色': 'bg-purple-600 text-white',
+      '灰色': 'bg-stone-400 text-white',
+      '棕色': 'bg-amber-800 text-white',
+      '米色': 'bg-amber-100',
+      'Orange': 'bg-orange-500 text-white',
+      'Black': 'bg-black text-white',
+      'White': 'bg-stone-100'
+    }
+    return map[color] || 'bg-stone-100'
   }
-});
+})
