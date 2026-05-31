@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/wardrobe/wardrobe",
+    "pages/match/match",
+    "pages/calendar/calendar",
+    "pages/mine/mine",
+    "pages/capture/capture"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "VOGUE AI 智能穿搭",
+    "backgroundColor": "#f8f9fa",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#9ca3af",
+    "selectedColor": "#0041c9",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/wardrobe/wardrobe",
+        "text": "衣橱"
+      },
+      {
+        "pagePath": "pages/match/match",
+        "text": "搭配"
+      },
+      {
+        "pagePath": "pages/calendar/calendar",
+        "text": "日历"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
