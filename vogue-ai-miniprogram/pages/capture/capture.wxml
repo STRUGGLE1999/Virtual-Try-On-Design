@@ -1,0 +1,84 @@
+<view class="container">
+  <view class="card">
+    <view class="mb-6">
+      <text class="text-2xl font-bold text-stone-900">添加衣物</text>
+    </view>
+
+    <view wx:if="{{imageUrl}}" class="relative w-full aspect-square bg-stone-100 rounded-2xl mb-6 overflow-hidden">
+      <image class="w-full h-full object-cover" src="{{imageUrl}}" mode="aspectFill"></image>
+      <button class="absolute top-4 right-4 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center" bindtap="clearImage">
+        <text class="text-xl">✕</text>
+      </button>
+    </view>
+
+    <view wx:else class="w-full aspect-square bg-stone-100 rounded-2xl mb-6 flex items-center justify-center">
+      <button class="flex flex-col items-center gap-3" bindtap="chooseImage">
+        <text class="text-5xl">📷</text>
+        <text class="text-sm text-stone-500">点击上传照片</text>
+      </button>
+    </view>
+
+    <view class="space-y-4">
+      <view>
+        <text class="text-sm font-medium text-stone-900 block mb-2">品类</text>
+        <view class="grid grid-cols-2 gap-3">
+          <view 
+            wx:for="{{categories}}" 
+            wx:key="id"
+            class="p-3 rounded-xl border-2 transition-all {{category === item.id ? 'border-stone-900 bg-stone-50' : 'border-stone-200 bg-white'}}"
+            bindtap="selectCategory"
+            data-id="{{item.id}}"
+          >
+            <text class="font-medium {{category === item.id ? 'text-stone-900' : 'text-stone-500'}}">{{item.label}}</text>
+          </view>
+        </view>
+      </view>
+
+      <view>
+        <text class="text-sm font-medium text-stone-900 block mb-2">品牌</text>
+        <input 
+          class="w-full p-4 border border-stone-200 rounded-xl"
+          placeholder="输入品牌名称"
+          value="{{brand}}"
+          bindinput="onBrandInput"
+        ></input>
+      </view>
+
+      <view>
+        <text class="text-sm font-medium text-stone-900 block mb-2">颜色</text>
+        <view class="flex flex-wrap gap-2">
+          <view 
+            wx:for="{{colors}}" 
+            wx:key="name"
+            class="px-3 py-1 rounded-full text-xs font-bold {{color === item.name ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-700'}}"
+            bindtap="selectColor"
+            data-name="{{item.name}}"
+          >
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+
+      <view>
+        <text class="text-sm font-medium text-stone-900 block mb-2">季节</text>
+        <view class="flex flex-wrap gap-2">
+          <view 
+            wx:for="{{seasons}}" 
+            wx:key="name"
+            class="px-3 py-1 rounded-full text-xs font-bold {{season === item.name ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-700'}}"
+            bindtap="selectSeason"
+            data-name="{{item.name}}"
+          >
+            {{item.name}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="mt-8">
+      <button class="w-full py-4 bg-stone-900 text-white rounded-full text-sm font-bold" bindtap="saveItem">
+        保存
+      </button>
+    </view>
+  </view>
+</view>

@@ -1,193 +1,185 @@
-const app = getApp();
+const app = getApp()
+const { formatDate } = require('../../utils/util')
 
 Page({
   data: {
-    selectedDate: '2026-05-13',
-    calendarLogs: [],
-    activeLog: null,
-    weekDays: ['日', '一', '二', '三', '四', '五', '六'],
-    offsetDays: 5,
-    calDays: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23],
-    showFeedbackForm: false,
-    feedbackText: ''
+    weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+    currentYear: new Date().getFullYear(),
+    currentMonth: new Date().getMonth(),
+    selectedDate: null,
+    calendarDays: [],
+    selectedOutfit: null,
+    stats: {
+      totalDays: 0,
+      recordedDays: 0,
+      streak: 3
+    }
   },
 
   onLoad() {
-    this.loadData();
+    const today = new Date()
+    const selectedDate = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
+    
+    this.setData({ selectedDate })
+    this.generateCalendar()
+    this.loadSelectedDateOutfit()
   },
 
   onShow() {
-    this.loadData();
+    this.generateCalendar()
+    this.loadSelectedDateOutfit()
   },
 
-  loadData() {
-    const globalData = app.globalData;
-    this.setData({
-      calendarLogs: globalData.calendarLogs
-    });
-    this.updateActiveLog();
-  },
-
-  updateActiveLog() {
-    const log = this.data.calendarLogs.find(l => l.date === this.data.selectedDate);
-    this.setData({ activeLog: log || null });
-  },
-
-  getDayClass(dayData, day) {
-    const dateStr = `2026-05-${day.toString().padStart(2, '0')}`;
-    const logEntry = this.data.calendarLogs.find(l => l.date === dateStr);
-    const isToday = dateStr === '2026-05-13';
-    const isSelected = dateStr === this.data.selectedDate;
+  generateCalendar() {
+    const { currentYear, currentMonth, selectedDate } = this.data
+    const today = new Date()
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`
     
-    let classes = 'calendar-day ';
+    const firstDay = new Date(currentYear, currentMonth, 1)
+    const lastDay = new Date(currentYear, currentMonth + 1, 0)
+    const startWeekDay = firstDay.getDay()
     
-    if (isSelected) {
-      classes += 'calendar-day-selected ';
-    } else if (isToday) {
-      classes += 'calendar-day-today ';
-    } else if (logEntry) {
-      classes += 'calendar-day-logged ';
+    const days = []
+    const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate()
+    
+    for (let i = startWeekDay - 1; i >= 0; i--) {
+      const day = prevMonthLastDay - i
+      const date = new Date(currentYear, currentMonth - 1, day)
+      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      days.push({
+        day,
+        date: dateStr,
+        currentMonth: false,
+        isToday: dateStr === todayStr,
+        isSelected: dateStr === selectedDate,
+        hasOutfit: this.hasOutfitForDate(dateStr)
+      })
     }
     
-    return classes;
-  },
-
-  onDaySelect(e) {
-    const day = e.currentTarget.dataset.day;
-    const dateStr = `2026-05-${day.toString().padStart(2, '0')}`;
-    this.setData({ selectedDate: dateStr });
-    this.updateActiveLog();
-  },
-
-  formatDate(dateStr) {
-    const parts = dateStr.split('-');
-    return `${parts[0]}年${parseInt(parts[1])}月${parseInt(parts[2])}日`;
-  },
-
-  onRatingChange(e) {
-    const rating = e.currentTarget.dataset.rating;
-    const globalData = app.globalData;
+    for (let i = 1; i <= lastDay.getDate(); i++) {
+      const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`
+      days.push({
+        day: i,
+        date: dateStr,
+        currentMonth: true,
+        isToday: dateStr === todayStr,
+        isSelected: dateStr === selectedDate,
+        hasOutfit: this.hasOutfitForDate(dateStr)
+      })
+    }
     
-    const updatedLogs = globalData.calendarLogs.map(log => {
-      if (log.date === this.data.selectedDate) {
-        return { ...log, rating };
-      }
-      return log;
-    });
-    
-    globalData.calendarLogs = updatedLogs;
-    this.setData({ calendarLogs: updatedLogs });
-    this.updateActiveLog();
+    const remainingDays = 42 - days.length
+    for (let i = 1; i <= remainingDays; i++) {
+      const date = new Date(currentYear, currentMonth + 1, i)
+      const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`
+      days.push({
+        day: i,
+        date: dateStr,
+        currentMonth: false,
+        isToday: dateStr === todayStr,
+        isSelected: dateStr === selectedDate,
+        hasOutfit: this.hasOutfitForDate(dateStr)
+      })
+    }
+
+    const recordedDays = days.filter(d => d.currentMonth && d.hasOutfit).length
+
+    this.setData({
+      calendarDays: days,
+      currentMonthLabel: `${currentYear}年${currentMonth + 1}月`,
+      selectedDateLabel: this.formatSelectedDateLabel(),
+      'stats.totalDays': lastDay.getDate(),
+      'stats.recordedDays': recordedDays
+    })
   },
 
-  onToggleAlert() {
-    const globalData = app.globalData;
-    
-    const updatedLogs = globalData.calendarLogs.map(log => {
-      if (log.date === this.data.selectedDate) {
-        return { ...log, repeatAlert: !log.repeatAlert };
-      }
-      return log;
-    });
-    
-    globalData.calendarLogs = updatedLogs;
-    this.setData({ calendarLogs: updatedLogs });
-    this.updateActiveLog();
+  hasOutfitForDate(dateStr) {
+    return app.globalData.calendarLogs && app.globalData.calendarLogs[dateStr]
   },
 
-  onAddCustomItem() {
-    wx.showModal({
-      title: '添加单品',
-      placeholderText: '输入新加单品名称',
-      content: '',
-      success: (res) => {
-        if (res.confirm && res.content) {
-          const newItem = {
-            id: `custom_log_item_${Date.now()}`,
-            name: res.content || '珍珠毛绒围巾',
-            brand: 'USER ATELIER',
-            category: 'accessory',
-            categoryLabel: '配件',
-            tags: ['#追加配饰', '#风格化'],
-            material: '天然织造/皮草/真丝',
-            colorName: '优雅拼色',
-            colorHex: '#3E2723',
-            imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDzW0wVrNWK4Fcu_L9gn7rfV3QQSZ1E1uHbJNHeS6E78al1eCJuPGLlirdwiLc7m-Pzxkq6b2surk2iwydvfzySJMp560TZhuQQ8M_9cxdP6LWhZpIfzJdncFKW1T8hQJS0eTUfOu5XFxr-PEfxuYzrgyX1Akxb5qgRRk47DZIleED7IQW7zIjX5u1GrdJCBJXddKQtP6G4UATCblggeaEBLwKZu54EuEXMX8TDoVSOXCTpzFtAIXnMyAcUi2aitxp1Pa5K_GZwal-5',
-            isWornCount: 1,
-            isRecentFavorite: false,
-            season: '四季通用',
-            dateAdded: this.data.selectedDate
-          };
-          
-          const globalData = app.globalData;
-          const updatedLogs = globalData.calendarLogs.map(log => {
-            if (log.date === this.data.selectedDate) {
-              return { ...log, items: [...log.items, newItem] };
-            }
-            return log;
-          });
-          
-          globalData.calendarLogs = updatedLogs;
-          this.setData({ calendarLogs: updatedLogs });
-          this.updateActiveLog();
-          
-          wx.showToast({
-            title: '单品已添加',
-            icon: 'success'
-          });
-        }
-      }
-    });
+  formatSelectedDateLabel() {
+    const { selectedDate } = this.data
+    if (!selectedDate) return '选择日期'
+    const [year, month, day] = selectedDate.split('-')
+    return `${parseInt(month)}月${parseInt(day)}日`
   },
 
   onPrevMonth() {
-    wx.showToast({
-      title: '已是当前月份',
-      icon: 'none'
-    });
+    let { currentYear, currentMonth } = this.data
+    currentMonth--
+    if (currentMonth < 0) {
+      currentMonth = 11
+      currentYear--
+    }
+    this.setData({ currentYear, currentMonth })
+    this.generateCalendar()
   },
 
   onNextMonth() {
-    wx.showToast({
-      title: '已是当前月份',
-      icon: 'none'
-    });
-  },
-
-  onHistoryFill() {
-    wx.showModal({
-      title: '补录历史',
-      content: '补录历史功能一触即发！请选择前序任何时间并在日历格内手动记录。',
-      showCancel: false
-    });
-  },
-
-  onShowFeedback() {
-    this.setData({ showFeedbackForm: true });
-  },
-
-  onCloseFeedback() {
-    this.setData({ showFeedbackForm: false, feedbackText: '' });
-  },
-
-  onFeedbackInput(e) {
-    this.setData({ feedbackText: e.detail.value });
-  },
-
-  onSubmitFeedback() {
-    if (!this.data.feedbackText.trim()) {
-      wx.showToast({
-        title: '请输入反馈内容',
-        icon: 'none'
-      });
-      return;
+    let { currentYear, currentMonth } = this.data
+    currentMonth++
+    if (currentMonth > 11) {
+      currentMonth = 0
+      currentYear++
     }
-    
-    wx.showToast({
-      title: '反馈已提交',
-      icon: 'success'
-    });
-    
-    this.setData({ showFeedbackForm: false, feedbackText: '' });
+    this.setData({ currentYear, currentMonth })
+    this.generateCalendar()
+  },
+
+  onSelectDate(e) {
+    const date = e.currentTarget.dataset.date
+    this.setData({ selectedDate: date })
+    this.generateCalendar()
+    this.loadSelectedDateOutfit()
+  },
+
+  loadSelectedDateOutfit() {
+    const { selectedDate } = this.data
+    if (!selectedDate) return
+
+    if (app.globalData.calendarLogs && app.globalData.calendarLogs[selectedDate]) {
+      this.setData({ selectedOutfit: app.globalData.calendarLogs[selectedDate] })
+    } else {
+      this.setData({ selectedOutfit: null })
+    }
+  },
+
+  onAddOutfit() {
+    const savedOutfits = app.globalData.savedOutfits || []
+    if (savedOutfits.length === 0) {
+      wx.showToast({ title: '还没有保存的搭配', icon: 'none' })
+      return
+    }
+
+    wx.showActionSheet({
+      itemList: savedOutfits.slice(0, 6).map(o => o.style),
+      success: (res) => {
+        const outfit = savedOutfits[res.tapIndex]
+        if (!app.globalData.calendarLogs) {
+          app.globalData.calendarLogs = {}
+        }
+        app.globalData.calendarLogs[this.data.selectedDate] = outfit
+        this.loadSelectedDateOutfit()
+        this.generateCalendar()
+        wx.showToast({ title: '已添加', icon: 'success' })
+      }
+    })
+  },
+
+  onRemoveOutfit() {
+    wx.showModal({
+      title: '确认移除',
+      content: '确定要移除这天的穿搭记录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          if (app.globalData.calendarLogs) {
+            delete app.globalData.calendarLogs[this.data.selectedDate]
+          }
+          this.loadSelectedDateOutfit()
+          this.generateCalendar()
+          wx.showToast({ title: '已移除', icon: 'success' })
+        }
+      }
+    })
   }
-});
+})

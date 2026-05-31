@@ -4,7 +4,8 @@
     "pages/wardrobe/wardrobe",
     "pages/match/match",
     "pages/calendar/calendar",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/capture/capture"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

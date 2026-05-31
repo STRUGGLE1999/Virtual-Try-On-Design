@@ -1,122 +1,95 @@
-<view class="container">
-  <view class="header-row">
+<view class="container animate-fadeIn">
+  <view class="flex justify-between items-center mb-6">
     <view>
-      <text class="text-3xl text-serif font-semibold text-stone-900">穿搭日历</text>
-      <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">2026年5月</text>
-    </view>
-    <view class="flex gap-2">
-      <button class="nav-btn" bindtap="onPrevMonth">
-        <text style="font-size: 16px;">‹</text>
-      </button>
-      <button class="nav-btn" bindtap="onNextMonth">
-        <text style="font-size: 16px;">›</text>
-      </button>
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">我的日历</text>
+      <text class="text-2xl text-serif font-bold text-stone-900 mt-1">穿搭日记</text>
     </view>
   </view>
 
-  <view class="calendar-card">
-    <view class="calendar-header">
-      <text wx:for="{{weekDays}}" wx:key="index" class="calendar-weekday">{{item}}</text>
+  <view class="card p-6">
+    <view class="flex justify-between items-center mb-6">
+      <button class="p-2 hover:bg-stone-100 rounded-full" bindtap="onPrevMonth">
+        <text class="text-xl">←</text>
+      </button>
+      <text class="text-lg font-bold text-stone-900">{{currentMonthLabel}}</text>
+      <button class="p-2 hover:bg-stone-100 rounded-full" bindtap="onNextMonth">
+        <text class="text-xl">→</text>
+      </button>
     </view>
-    <view class="calendar-grid">
-      <view wx:for="{{offsetDays}}" wx:key="index" class="calendar-empty"></view>
-      <view wx:for="{{calDays}}" wx:key="index" class="calendar-day {{getDayClass(dayData, item)}}" bindtap="onDaySelect" data-day="{{item}}">
-        <text>{{item}}</text>
+
+    <view class="grid grid-cols-7 gap-1 mb-2">
+      <view wx:for="{{weekdays}}" wx:key="*this" class="text-center text-xs font-bold text-stone-400 py-2">
+        {{item}}
+      </view>
+    </view>
+
+    <view class="grid grid-cols-7 gap-1">
+      <view 
+        wx:for="{{calendarDays}}" 
+        wx:key="date"
+        class="aspect-square flex flex-col items-center justify-center rounded-xl cursor-pointer transition-all relative {{item.isToday ? 'bg-blue-600 text-white' : ''}} {{item.hasOutfit ? 'ring-2 ring-blue-600 ring-offset-1' : ''}} {{!item.currentMonth ? 'text-stone-300' : ''}} {{item.isSelected ? 'bg-stone-100' : ''}}"
+        bindtap="onSelectDate"
+        data-date="{{item.date}}"
+      >
+        <text class="text-sm font-medium">{{item.day}}</text>
+        <view wx:if="{{item.hasOutfit}}" class="w-2 h-2 rounded-full mt-1 {{item.isToday ? 'bg-white' : 'bg-blue-600'}}"></view>
       </view>
     </view>
   </view>
 
-  <view class="card">
-    <view class="flex justify-between items-center mb-5 pb-4 border-b border-stone-100">
-      <text class="text-base text-serif font-bold text-stone-950">今日穿搭记录</text>
-      <text class="bg-tag-linen uppercase tracking-wider font-bold text-xs text-stone-700 px-3 py-1 rounded-full">{{formatDate(selectedDate)}}</text>
+  <view class="card mt-4">
+    <view class="flex justify-between items-center mb-4">
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">
+        {{selectedDateLabel}}
+      </text>
     </view>
 
-    <view wx:if="{{activeLog}}">
-      <scroll-view scroll-x class="items-scroll">
-        <view class="items-container">
-          <view wx:for="{{activeLog.items}}" wx:key="id" wx:for-item="item" class="log-item">
-            <view class="log-image-wrap">
-              <image src="{{item.imageUrl}}" mode="aspectFill" class="log-image"></image>
-            </view>
-            <text class="text-xs uppercase font-bold tracking-widest text-stone-500 text-center truncate px-1">{{item.name}}</text>
-          </view>
-          <view class="log-add-item" bindtap="onAddCustomItem">
-            <view class="log-add-icon">
-              <text style="font-size: 24px;">+</text>
-            </view>
-            <text class="text-xs uppercase font-bold tracking-widest text-stone-400 text-center">添加单品</text>
+    <view wx:if="{{selectedOutfit}}">
+      <view class="flex items-center gap-4 mb-6">
+        <view class="flex gap-2">
+          <view wx:for="{{selectedOutfit.items}}" wx:key="id" class="w-20 h-28 rounded-xl overflow-hidden bg-stone-100">
+            <image class="w-full h-full object-cover" src="{{item.imageUrl}}" mode="aspectFill"></image>
           </view>
         </view>
-      </scroll-view>
-
-      <view class="flex justify-between items-center mt-5 pt-4 border-t border-stone-100">
-        <view class="flex items-center gap-2">
-          <text class="text-xs uppercase font-bold tracking-widest text-stone-400">满意度</text>
-          <view class="flex items-center">
-            <view wx:for="{{[1,2,3,4,5]}}" wx:key="index" class="star-btn" bindtap="onRatingChange" data-rating="{{item}}">
-              <text style="font-size: 16px; color: {{item <= activeLog.rating ? '#fbbf24' : '#d6d3d1'}};">{{item <= activeLog.rating ? '★' : '☆'}}</text>
-            </view>
-          </view>
+        <view class="flex-1">
+          <text class="text-sm text-stone-500 uppercase tracking-widest font-bold block">今日穿搭</text>
+          <text class="text-lg font-bold text-stone-900 block">{{selectedOutfit.style}}</text>
         </view>
-        <button class="reminder-btn {{activeLog.repeatAlert ? 'reminder-btn-active' : ''}}" bindtap="onToggleAlert">
-          <text style="font-size: 12px;">{{activeLog.repeatAlert ? '🔔' : '🔕'}}</text>
-          <text class="text-xs uppercase font-bold tracking-widest">重复提醒</text>
+      </view>
+      <view class="flex gap-3">
+        <button class="flex-1 py-3 border border-stone-200 rounded-full text-sm font-bold" bindtap="onRemoveOutfit">
+          移除
         </button>
       </view>
     </view>
 
-    <view wx:else class="py-8 text-center text-stone-400">
-      <text style="font-size: 32px;" class="mb-2">📅</text>
-      <text class="text-xs font-bold uppercase tracking-wider block">这天没有登记穿搭记录</text>
-      <text class="text-xs text-stone-300 mt-1">请选择前序标有深黑色滑块的高频日期，或补录日志。</text>
+    <view wx:else>
+      <view class="flex flex-col items-center justify-center py-10 text-center">
+        <text class="text-4xl mb-4">📅</text>
+        <text class="text-stone-500 mb-4">这一天还没有记录穿搭</text>
+        <button wx:if="{{app.globalData.savedOutfits && app.globalData.savedOutfits.length > 0}}" class="bg-stone-900 text-white px-6 py-3 rounded-full text-sm font-bold" bindtap="onAddOutfit">
+          从保存的搭配中选择
+        </button>
+      </view>
     </view>
   </view>
 
-  <view class="stats-grid">
-    <view class="stat-item">
-      <text class="text-3xl text-serif font-bold text-stone-900">12</text>
-      <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">累计记录</text>
+  <view class="card mt-4">
+    <view class="flex justify-between items-center mb-4">
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">本月统计</text>
     </view>
-    <view class="stat-item">
-      <text class="text-3xl text-serif font-bold text-stone-900">64%</text>
-      <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">衣橱覆盖率</text>
-    </view>
-    <view class="stat-item">
-      <text class="text-3xl text-serif font-bold text-blue-600">5</text>
-      <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">连续记录</text>
-    </view>
-  </view>
-
-  <view class="insight-card">
-    <text style="font-size: 20px;">✨</text>
-    <view class="ml-3">
-      <text class="text-sm text-serif font-bold text-stone-900 mb-1 block">AI 穿搭洞察</text>
-      <text class="text-xs text-stone-600 leading-relaxed font-medium">记录建议：连续记录 7 天后，系统将为您识别高频与闲置单品。</text>
-    </view>
-  </view>
-
-  <view class="action-btns">
-    <button class="action-btn-secondary" bindtap="onHistoryFill">
-      <text style="font-size: 16px;">📝</text>
-      <text class="text-xs font-bold uppercase tracking-widest">补录历史</text>
-    </button>
-    <button class="action-btn-primary" bindtap="onShowFeedback">
-      <text style="font-size: 16px;">✅</text>
-      <text class="text-xs font-bold uppercase tracking-widest">今日反馈</text>
-    </button>
-  </view>
-
-  <view wx:if="{{showFeedbackForm}}" class="modal-overlay" bindtap="onCloseFeedback">
-    <view class="modal-content" catchtap="stopPropagation">
-      <text class="text-lg text-serif font-bold text-stone-950 mb-1">提交今日反馈</text>
-      <text class="text-xs text-stone-500 mb-4 block">您可以写下衣服舒适度或相亲相容性的主观评测，供 AI 生成下次穿品参考：</text>
-      
-      <textarea class="feedback-textarea" placeholder="例如: 呢子外套保暖度极高，但内穿重磅衬里活动度略微受阻..." value="{{feedbackText}}" bindinput="onFeedbackInput"></textarea>
-
-      <view class="flex gap-2.5 mt-4">
-        <button class="flex-1 py-3 text-xs bg-stone-100 text-stone-700 border border-stone-200 rounded-full font-bold" bindtap="onCloseFeedback">取消</button>
-        <button class="flex-1 py-3 text-xs bg-black text-white rounded-full font-bold" bindtap="onSubmitFeedback">送交 AI 拟真运算</button>
+    <view class="grid grid-cols-3 gap-4">
+      <view class="text-center">
+        <text class="text-3xl font-black text-stone-900">{{stats.totalDays}}</text>
+        <text class="text-xs font-bold text-stone-500 block mt-1">总天数</text>
+      </view>
+      <view class="text-center">
+        <text class="text-3xl font-black text-blue-600">{{stats.recordedDays}}</text>
+        <text class="text-xs font-bold text-blue-600 block mt-1">已记录</text>
+      </view>
+      <view class="text-center">
+        <text class="text-3xl font-black text-emerald-600">{{stats.streak}}</text>
+        <text class="text-xs font-bold text-emerald-600 block mt-1">连续天数</text>
       </view>
     </view>
   </view>

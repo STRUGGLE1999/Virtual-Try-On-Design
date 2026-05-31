@@ -1,137 +1,143 @@
-<view class="container">
-  <view class="section-top">
-    <view class="flex justify-between items-center">
+<view class="container animate-fadeIn">
+  <view class="flex justify-between items-center mb-6">
+    <view>
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">魔法衣橱</text>
+      <text class="text-2xl text-serif font-bold text-stone-900 mt-1">智能搭配</text>
+    </view>
+  </view>
+
+  <view wx:if="{{wardrobeItems.length < 3}}" class="bg-blue-50 border border-blue-100 p-6 rounded-2xl mb-6">
+    <view class="flex items-start gap-4">
+      <view class="text-4xl">👗</view>
       <view>
-        <text class="text-xs uppercase font-bold tracking-widest text-stone-400 block mb-1">今日穿搭选择</text>
-        <text class="text-3xl text-serif font-semibold text-stone-900">AI 智能推荐</text>
-      </view>
-      <view class="bg-tag-linen px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-stone-200">
-        <text style="font-size: 14px;">💼</text>
-        <text class="text-xs font-bold text-stone-700 uppercase tracking-wider">{{styleTag}}</text>
+        <text class="font-bold text-blue-900 text-lg block">衣橱衣物不足</text>
+        <text class="text-blue-700 text-sm mt-1 block">至少需要 3 件衣物才能开始搭配（上装、下装、鞋履）</text>
+        <button class="mt-4 bg-blue-600 text-white px-6 py-3 rounded-full text-xs font-bold" bindtap="onOpenCamera">
+          去添加
+        </button>
       </view>
     </view>
   </view>
 
-  <view class="card relative">
-    <view wx:if="{{checkoutNotify}}" class="notify-bar">
-      <text>{{checkoutNotify}}</text>
-    </view>
-
-    <view class="metrics-row">
-      <view class="metric-item">
-        <text class="text-3xl text-serif font-bold text-stone-900">{{matchScore}}%</text>
-        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">匹配度</text>
-      </view>
-      <view class="metric-divider"></view>
-      <view class="metric-item">
-        <text class="text-3xl text-serif font-bold text-stone-900">{{rewornCount}}</text>
-        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">复穿次数</text>
-      </view>
-      <view class="metric-divider"></view>
-      <view class="metric-item">
-        <text class="text-3xl text-serif font-bold text-blue-600">{{styleRisk}}</text>
-        <text class="text-xs uppercase font-bold tracking-widest text-stone-500 mt-1 block">风格风险</text>
-      </view>
-    </view>
-
-    <view class="outfit-grid mb-6">
-      <view class="outfit-main">
-        <view class="outfit-item">
-          <image src="{{coatItem}}" mode="aspectFill" class="outfit-image"></image>
-          <view class="outfit-label">
-            <text class="text-xs font-bold uppercase tracking-wider">外套款式</text>
-          </view>
+  <view wx:else>
+    <view class="card">
+      <view class="flex justify-between items-center mb-6">
+        <view>
+          <text class="text-xs uppercase font-bold tracking-widest text-stone-400">今日心情</text>
+          <text class="text-lg font-bold text-stone-900">选择风格</text>
         </view>
       </view>
-      <view class="outfit-small">
-        <view class="outfit-item">
-          <image src="{{shirtItem}}" mode="aspectFill" class="outfit-image"></image>
-          <view class="outfit-label-small">
-            <text class="text-xs font-bold uppercase tracking-wider">内搭上装</text>
-          </view>
-        </view>
-      </view>
-      <view class="outfit-small">
-        <view class="outfit-item">
-          <image src="{{trousersItem}}" mode="aspectFill" class="outfit-image"></image>
-          <view class="outfit-label-small">
-            <text class="text-xs font-bold uppercase tracking-wider">搭配下装</text>
-          </view>
+      <view class="grid grid-cols-2 gap-3">
+        <view 
+          wx:for="{{styles}}" 
+          wx:key="id"
+          class="p-5 rounded-2xl border-2 transition-all cursor-pointer {{selectedStyle === item.id ? 'border-stone-900 bg-stone-50' : 'border-transparent bg-white hover:border-stone-200'}}"
+          bindtap="onSelectStyle"
+          data-id="{{item.id}}"
+        >
+          <text class="text-2xl mb-2 block">{{item.icon}}</text>
+          <text class="font-bold text-stone-900 block">{{item.name}}</text>
+          <text class="text-xs text-stone-500 mt-1 block">{{item.desc}}</text>
         </view>
       </view>
     </view>
 
-    <button class="w-full py-4 bg-blue-600 text-white text-xs font-bold uppercase tracking-widest rounded-xl flex items-center justify-center gap-2" bindtap="onTryOn">
-      <text style="font-size: 16px;">✨</text>
-      <text>AI 虚拟试穿</text>
-    </button>
-  </view>
+    <view class="card mt-4">
+      <view class="flex justify-between items-center mb-6">
+        <view>
+          <text class="text-xs uppercase font-bold tracking-widest text-stone-400">AI 推荐</text>
+          <text class="text-lg font-bold text-stone-900">完美组合</text>
+        </view>
+        <button class="flex items-center gap-2 px-4 py-2 bg-stone-100 rounded-full" bindtap="onRegenerate">
+          <text class="text-base">🎲</text>
+          <text class="text-xs font-bold text-stone-700">重新生成</text>
+        </button>
+      </view>
 
-  <view class="action-row">
-    <view class="action-item" bindtap="onRefreshAll">
-      <view class="action-icon">
-        <text style="font-size: 16px;">🔄</text>
-      </view>
-      <text class="text-xs font-bold uppercase tracking-widest text-stone-600">换一套</text>
-    </view>
-    <view class="action-item" bindtap="onSwapTop">
-      <view class="action-icon">
-        <text style="font-size: 16px;">👔</text>
-      </view>
-      <text class="text-xs font-bold uppercase tracking-widest text-stone-600">换上装</text>
-    </view>
-    <view class="action-item" bindtap="onSwapBottom">
-      <view class="action-icon">
-        <text style="font-size: 16px;">👖</text>
-      </view>
-      <text class="text-xs font-bold uppercase tracking-widest text-stone-600">换下装</text>
-    </view>
-    <view class="action-item" bindtap="onSwapOuterwear">
-      <view class="action-icon">
-        <text style="font-size: 16px;">🧥</text>
-      </view>
-      <text class="text-xs font-bold uppercase tracking-widest text-stone-600">换外套</text>
-    </view>
-  </view>
-
-  <view class="bento-grid mb-6">
-    <view class="bento-card" bindtap="onShopHelper">
-      <image src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc21YltjnlvO_OZuxxBcL3Xh3sk3gxgbAfCO89CAmPPUGueSyeSAM-lrbAoH8HFAZrcCrZDF7VYQFlT4DS6-aH3Iimd0tJcx7W268tVejDxsXCAf6wIXjVidjl-q1waEO8rvrJfs_0qtnTKBcxl_Gf78FKQoYgpoIIA8zZ_Eqd1TOO6TWR2Ot1ZLg5HDKhH1nmkhgT362_VvEPbacZqZ4b4QQE2IbBW7Bkrliy0eUwqLGYnmLFe0MODYMhHr9bJ1Tc2vwwB7RQdbhd" mode="aspectFill" class="bento-image"></image>
-      <view class="bento-overlay">
-        <text class="text-lg text-serif font-bold text-white mb-1">买前试穿</text>
-        <text class="text-xs text-white/80 leading-relaxed">购物决策辅助，降低闲置风险。</text>
-      </view>
-    </view>
-    <view class="bento-card" bindtap="onTravelPacking">
-      <image src="https://lh3.googleusercontent.com/aida-public/AB6AXuD40ZqZa49VW1USsfHqC4kiRMM9x7ra3jDVxrR48rm3oAXH_PUltoeX0dIvZCjXNCzhIq80LyEbkcBqmv19k8SsY2dlO7_7jpUWf2ZE7NXrcmHrA62QSCyZ3s-BvxQ2PIWeXELKz7gLzsJsioQmQ4ulrfTaty0pG0qvCWHTm7O7RAUpMm6O-GCE6EEzo8Obq7p36VR2wNhdWquDtujrzzlp5NbOuVnrXHqlRtntdURkuUaQpPeXATNjnwYhwfLF__r7K1-tEiJZ8q24" mode="aspectFill" class="bento-image"></image>
-      <view class="bento-overlay">
-        <text class="text-lg text-serif font-bold text-white mb-1">旅行打包</text>
-        <text class="text-xs text-white/80 leading-relaxed">高效规划行李，每一件都用得上。</text>
-      </view>
-    </view>
-  </view>
-
-  <view class="section-space">
-    <view class="flex justify-between items-center mb-4">
-      <text class="text-lg text-serif font-bold text-stone-900">可替换单品</text>
-      <text class="text-xs font-bold text-blue-600 uppercase tracking-widest">查看全部</text>
-    </view>
-
-    <scroll-view scroll-x class="alt-scroll">
-      <view class="alt-container">
-        <view wx:for="{{alternativeItems}}" wx:key="id" wx:for-item="item" class="alt-item">
-          <view class="alt-image-wrap">
-            <image src="{{item.imageUrl}}" mode="aspectFill" class="alt-image"></image>
-            <view class="alt-swap-btn" bindtap="onItemOverwrite" data-item="{{item}}">
-              <text style="font-size: 14px;">⇄</text>
+      <view wx:if="{{generatedOutfit}}" class="relative">
+        <view class="grid gap-3">
+          <view wx:if="{{generatedOutfit.top}}" class="relative flex items-center gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+            <view class="w-16 h-20 rounded-xl overflow-hidden bg-white">
+              <image class="w-full h-full object-cover" src="{{generatedOutfit.top.imageUrl}}" mode="aspectFill"></image>
             </view>
+            <view class="flex-1">
+              <text class="text-xs text-stone-400 uppercase tracking-widest font-bold">上装</text>
+              <text class="font-bold text-stone-900 block">{{generatedOutfit.top.brand || generatedOutfit.top.category}}</text>
+            </view>
+            <button class="p-2 hover:bg-stone-200 rounded-full transition-colors" bindtap="onReplaceItem" data-slot="top">
+              <text class="text-lg">🔄</text>
+            </button>
           </view>
-          <view class="px-1 mt-2 text-left">
-            <text class="text-xs uppercase font-bold tracking-widest text-stone-500 truncate block">{{item.name}}</text>
-            <text class="text-xs font-bold px-2 py-0.5 bg-stone-100 text-stone-600 rounded mt-1 inline-block">{{item.material}}</text>
+
+          <view class="flex justify-center my-1">
+            <text class="text-stone-300 text-xl">+</text>
+          </view>
+
+          <view wx:if="{{generatedOutfit.bottom}}" class="relative flex items-center gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+            <view class="w-16 h-20 rounded-xl overflow-hidden bg-white">
+              <image class="w-full h-full object-cover" src="{{generatedOutfit.bottom.imageUrl}}" mode="aspectFill"></image>
+            </view>
+            <view class="flex-1">
+              <text class="text-xs text-stone-400 uppercase tracking-widest font-bold">下装</text>
+              <text class="font-bold text-stone-900 block">{{generatedOutfit.bottom.brand || generatedOutfit.bottom.category}}</text>
+            </view>
+            <button class="p-2 hover:bg-stone-200 rounded-full transition-colors" bindtap="onReplaceItem" data-slot="bottom">
+              <text class="text-lg">🔄</text>
+            </button>
+          </view>
+
+          <view class="flex justify-center my-1">
+            <text class="text-stone-300 text-xl">+</text>
+          </view>
+
+          <view wx:if="{{generatedOutfit.shoes}}" class="relative flex items-center gap-4 p-4 bg-stone-50 rounded-2xl border border-stone-100">
+            <view class="w-16 h-20 rounded-xl overflow-hidden bg-white">
+              <image class="w-full h-full object-cover" src="{{generatedOutfit.shoes.imageUrl}}" mode="aspectFill"></image>
+            </view>
+            <view class="flex-1">
+              <text class="text-xs text-stone-400 uppercase tracking-widest font-bold">鞋履</text>
+              <text class="font-bold text-stone-900 block">{{generatedOutfit.shoes.brand || generatedOutfit.shoes.category}}</text>
+            </view>
+            <button class="p-2 hover:bg-stone-200 rounded-full transition-colors" bindtap="onReplaceItem" data-slot="shoes">
+              <text class="text-lg">🔄</text>
+            </button>
           </view>
         </view>
+
+        <view class="mt-8">
+          <button class="w-full bg-stone-900 text-white py-5 rounded-full text-sm font-bold shadow-xl animate-glow" bindtap="onSaveOutfit">
+            保存这套搭配
+          </button>
+        </view>
       </view>
-    </scroll-view>
+    </view>
+  </view>
+
+  <view class="card mt-4">
+    <view class="flex justify-between items-center mb-4">
+      <text class="text-xs uppercase font-bold tracking-widest text-stone-400">历史记录</text>
+      <text wx:if="{{savedOutfits.length > 0}}" class="text-xs font-bold text-blue-600" bindtap="onViewAllOutfits">查看全部 &rarr;</text>
+    </view>
+    
+    <view wx:if="{{savedOutfits.length === 0}}" class="text-center py-10 text-stone-400">
+      <text>还没有保存的搭配</text>
+    </view>
+    
+    <view wx:else class="space-y-4">
+      <view wx:for="{{savedOutfits.slice(0, 2)}}" wx:key="id" class="flex items-center gap-4 p-4 bg-stone-50 rounded-xl">
+        <view class="flex gap-1">
+          <view wx:for="{{item.items}}" wx:for-item="subItem" wx:key="id" class="w-12 h-16 rounded-md overflow-hidden bg-white flex-shrink-0">
+            <image class="w-full h-full object-cover" src="{{subItem.imageUrl}}" mode="aspectFill"></image>
+          </view>
+        </view>
+        <view class="flex-1 min-w-0">
+          <text class="font-bold text-stone-900 text-sm block">{{item.style}}</text>
+          <text class="text-xs text-stone-500 block">{{item.date}}</text>
+        </view>
+        <button class="p-2">
+          <text class="text-lg">❤️</text>
+        </button>
+      </view>
+    </view>
   </view>
 </view>
